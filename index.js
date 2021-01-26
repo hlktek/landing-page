@@ -2,7 +2,6 @@ require('dotenv').config({ path: `${__dirname}/../.env` });
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
-const moment = require('moment-timezone');
 const passport = require('passport');
 const config = require('./config');
 
@@ -15,7 +14,6 @@ const app = express();
 require('./lib/passport');
 
 
-moment.tz.setDefault('Asia/Ho_Chi_Minh');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
