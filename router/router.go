@@ -11,6 +11,8 @@ import (
 func InitRouter() *gin.Engine {
 	r := gin.New()
 	r.Use(sessions.Sessions("mysession", sessions.NewCookieStore([]byte("secret"))))
+	r.Static("/assets", "./assets")
+
 	r.LoadHTMLGlob("templates/*")
 	r.GET("/auth/google/callback", handler.HandleGoogleCallback)
 	r.GET("/auth/google", handler.HandleGoogleLogin)
