@@ -45,7 +45,12 @@ func init() {
 	}
 	connection, err := GetGrpcConnection()
 	if err != nil {
-		fmt.Println(err.Error())
+		logger.Debug(logrus.Fields{
+			"action": "Get grpc connection",
+		}, "Fail to get grpc connecttion : %s", err.Error())
+		logger.Error(logrus.Fields{
+			"action": "Get grpc connection",
+		}, "Fail to get grpc connecttion : %s", err.Error())
 		return
 	}
 	client = pb.NewAuthServiceClient(connection)
@@ -67,7 +72,7 @@ func HandleMain(c *gin.Context) {
 	byetData, err := json.Marshal(key)
 	if err != nil {
 		logger.Error(logrus.Fields{
-			"action": config.GetConfig("USER_ID_PREFIX") + "Handle Main",
+			"action": "Handle Main",
 		}, "Fail to unmarshal session key : %s", err.Error())
 		return
 	}
