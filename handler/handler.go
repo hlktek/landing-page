@@ -54,6 +54,14 @@ type ResponseWallet struct {
 	Result  interface{} `json:"resul"`
 }
 
+type GameInfo struct {
+	Link        string `json:"link"`
+	Category    string `json:"category"`
+	Name        string `json:"name"`
+	ExServiceId string `json:"ex_service_id"`
+	Token       string `json:"token"`
+}
+
 var authContent AuthContent
 var responseWallet ResponseWallet
 var client pb.AuthServiceClient
@@ -77,11 +85,34 @@ func init() {
 
 // HandleMain handle main page
 func HandleMain(c *gin.Context) {
+
 	sessionData := AuthSession{}
 	session := sessions.Default(c)
 	key := session.Get("UserID")
 	if key == nil {
-		c.HTML(http.StatusOK, "main.tmpl", gin.H{})
+		listGameInfo := []GameInfo{
+			{
+				Link:        "https://iframe.dev.ktek.io/ktrng3998/?token=",
+				Category:    "rng",
+				Name:        "Sicbo",
+				ExServiceId: "ktrng3998",
+			},
+			{
+				Link:        "https://iframe.dev.ktek.io/ktrng3999/?token=",
+				Category:    "rng",
+				Name:        "LLQP",
+				ExServiceId: "ktrng3999",
+			},
+			{
+				Link:        "https://iframe.dev.ktek.io/ktf1999/?token=",
+				Category:    "fish",
+				Name:        "Fish 1",
+				ExServiceId: "ktf1999",
+			},
+		}
+		c.HTML(http.StatusOK, "main.tmpl", gin.H{
+			"listGameInfo": listGameInfo,
+		})
 	}
 	byetData, err := json.Marshal(key)
 	// sessionData = session.Get("UserID").(AuthContent)
@@ -89,9 +120,33 @@ func HandleMain(c *gin.Context) {
 		fmt.Errorf("fail to marshal session")
 	}
 	json.Unmarshal(byetData, &sessionData)
+	listGameInfo := []GameInfo{
+		{
+			Link:        "https://iframe.dev.ktek.io/ktrng3998/?token=",
+			Category:    "rng",
+			Name:        "Sicbo",
+			ExServiceId: "ktrng3998",
+			Token:       sessionData.Token,
+		},
+		{
+			Link:        "https://iframe.dev.ktek.io/ktrng3999/?token=",
+			Category:    "rng",
+			Name:        "LLQP",
+			ExServiceId: "ktrng3999",
+			Token:       sessionData.Token,
+		},
+		{
+			Link:        "https://iframe.dev.ktek.io/ktf1999/?token=",
+			Category:    "fish",
+			Name:        "Fish 1",
+			ExServiceId: "ktf1999",
+			Token:       sessionData.Token,
+		},
+	}
 	c.HTML(http.StatusOK, "main.tmpl", gin.H{
-		"token":       sessionData.Token,
-		"displayName": sessionData.DisplayName,
+		"token":        sessionData.Token,
+		"displayName":  sessionData.DisplayName,
+		"listGameInfo": listGameInfo,
 	})
 }
 

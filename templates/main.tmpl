@@ -288,10 +288,12 @@
                         </ul>
                     </div>
                     <!-- //.game-filter -->
-                    
                     <div class="game-grid-wrapper">
                         <div class="game-grid grid-col-3 gutter-medium">
-                            <div class="item slot">
+                    {{range .listGameInfo}}
+
+                            <div class="item {{.Category}}">
+                            <a {{if not .Token}}href="/auth/google"{{end}} {{if .Token}}href="{{.Link}}{{.Token}}"{{end}}>
                                 <figure>
                                     <div class="game-img">
                                         <img src="https://play-lh.googleusercontent.com/0eh6QrVwGNeRd99TX_AIBroV4ObKF8BH04wGGrUVqEgby66Xs_Cmtd0vl0A1FN6hRNVd=s360-rw" alt="">
@@ -299,166 +301,15 @@
                                     <figcaption class="text-center">
                                         <div class="d-table color-white">
                                             <div class="d-table-cell align-middle">
-                                                <h3 class="game-name">Bắn cá</h3>
+                                                <h3 class="game-name">{{.Name}}</h3>
                                                 <div class="game-amount">$<span>1.054.768.000</span></div>
                                             </div>
                                         </div>
                                     </figcaption>
                                 </figure>
+                                </a>
                             </div>
-                            <!-- //.item -->
-                            
-                            <div class="item rng">
-                                <figure>
-                                    <div class="game-img">
-                                        <img src="https://play-lh.googleusercontent.com/gU9NKwpgLDYA6LIYK4dnkAkVyqNHUfTIqklEiNuO4oZ2OCpWQhQdqhnDh8Yb9B8SWIM=s360-rw" alt="">
-                                    </div>
-                                    <!-- //.game-img -->
-                                    
-                                    <figcaption class="text-center">
-                                        <div class="d-table color-white">
-                                            <div class="d-table-cell align-middle">
-                                                <h3 class="game-name">Bắn cá</h3>
-                                                <div class="game-amount">$<span>1.054.768.000</span></div>
-                                            </div>
-                                        </div>
-                                    </figcaption>
-                                </figure>
-                            </div>
-                            <!-- //.item -->
-                            
-                            <div class="item fish">
-                                <figure>
-                                    <div class="game-img">
-                                        <img src="https://play-lh.googleusercontent.com/VgUojeBLVsc6DbQIEhobd2_5RaRWMzrt8odRf53xTPH1OvadhQA_zd0dEYanPzxvjw=s360-rw" alt="">
-                                    </div>
-                                    <!-- //.game-img -->
-                                    
-                                    <figcaption class="text-center">
-                                        <div class="d-table color-white">
-                                            <div class="d-table-cell align-middle">
-                                                <h3 class="game-name">Bắn cá</h3>
-                                                <div class="game-amount">$<span>1.054.768.000</span></div>
-                                            </div>
-                                        </div>
-                                    </figcaption>
-                                </figure>
-                            </div>
-                            <!-- //.item -->
-                            
-                            <div class="item slot">
-                                <figure>
-                                    <div class="game-img">
-                                        <img src="https://play-lh.googleusercontent.com/acz1j_0FAIAJOwyOAp5U2YN3EjZxdXV02RhPn-vfvWCpGce8TpURU406AHCc58n3OIoQ=s360-rw" alt="">
-                                    </div>
-                                    <!-- //.game-img -->
-                                    
-                                    <figcaption class="text-center">
-                                        <div class="d-table color-white">
-                                            <div class="d-table-cell align-middle">
-                                                <h3 class="game-name">Bắn cá</h3>
-                                                <div class="game-amount">$<span>1.054.768.000</span></div>
-                                            </div>
-                                        </div>
-                                    </figcaption>
-                                </figure>
-                            </div>
-                            <!-- //.item -->
-                            
-                            <div class="item rng fish">
-                                <figure>
-                                    <div class="game-img">
-                                        <img src="https://play-lh.googleusercontent.com/o_DTwsK9be_m914-aJXZfzghSy64pyf4vgURjlMATt0wsj1mrwDVS55nxNt56t86sPJW=s360-rw" alt="">
-                                    </div>
-                                    <!-- //.game-img -->
-                                    
-                                    <figcaption class="text-center">
-                                        <div class="d-table color-white">
-                                            <div class="d-table-cell align-middle">
-                                                <h3 class="game-name">Bắn cá</h3>
-                                                <div class="game-amount">$<span>1.054.768.000</span></div>
-                                            </div>
-                                        </div>
-                                    </figcaption>
-                                </figure>
-                            </div>
-                            <!-- //.item -->
-                            
-                            <div class="item fish">
-                                <figure>
-                                    <div class="game-img">
-                                        <img src="https://play-lh.googleusercontent.com/M55wxKzjr3JqzrBD9yXxD75q40LiG1S9FhinI5UCGDW-A5qcV6QN99nXanL8RkF_CQ=s360-rw" alt="">
-                                    </div>
-                                    <!-- //.game-img -->
-                                    
-                                    <figcaption class="text-center">
-                                        <div class="d-table color-white">
-                                            <div class="d-table-cell align-middle">
-                                                <h3 class="game-name">Bắn cá</h3>
-                                                <div class="game-amount">$<span>1.054.768.000</span></div>
-                                            </div>
-                                        </div>
-                                    </figcaption>
-                                </figure>
-                            </div>
-                            <!-- //.item -->
-                            
-                            <div class="item slot rng">
-                                <figure>
-                                    <div class="game-img">
-                                        <img src="https://play-lh.googleusercontent.com/sM3WNOZ-gLInvzXBuXh2iUT1TxTudk1mv0MSsZ0SQWVZWq25aB2UOU0utV4nx60ybg=s360-rw" alt="">
-                                    </div>
-                                    <!-- //.game-img -->
-                                    
-                                    <figcaption class="text-center">
-                                        <div class="d-table color-white">
-                                            <div class="d-table-cell align-middle">
-                                                <h3 class="game-name">Bắn cá</h3>
-                                                <div class="game-amount">$<span>1.054.768.000</span></div>
-                                            </div>
-                                        </div>
-                                    </figcaption>
-                                </figure>
-                            </div>
-                            <!-- //.item -->
-                            
-                            <div class="item fish">
-                                <figure>
-                                    <div class="game-img">
-                                        <img src="https://play-lh.googleusercontent.com/M55wxKzjr3JqzrBD9yXxD75q40LiG1S9FhinI5UCGDW-A5qcV6QN99nXanL8RkF_CQ=s360-rw" alt="">
-                                    </div>
-                                    <!-- //.game-img -->
-                                    
-                                    <figcaption class="text-center">
-                                        <div class="d-table color-white">
-                                            <div class="d-table-cell align-middle">
-                                                <h3 class="game-name">Bắn cá</h3>
-                                                <div class="game-amount">$<span>1.054.768.000</span></div>
-                                            </div>
-                                        </div>
-                                    </figcaption>
-                                </figure>
-                            </div>
-                            <!-- //.item -->
-                            
-                            <div class="item rng">
-                                <figure>
-                                    <div class="game-img">
-                                        <img src="https://play-lh.googleusercontent.com/JbIzCnkUl_H6ujsZIb38qBKc2kk3WEwd0Rmg1Gc7HR3zA-gqJWl1zFh1n7TVVEOSAn8=s360-rw" alt="">
-                                    </div>
-                                    <!-- //.game-img -->
-                                    
-                                    <figcaption class="text-center">
-                                        <div class="d-table color-white">
-                                            <div class="d-table-cell align-middle">
-                                                <h3 class="game-name">Bắn cá</h3>
-                                                <div class="game-amount">$<span>1.054.768.000</span></div>
-                                            </div>
-                                        </div>
-                                    </figcaption>
-                                </figure>
-                            </div>
-                            <!-- //.item -->
+                            {{end}}
                         </div>
                         <!-- //.game-grid -->
                     </div>
