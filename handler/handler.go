@@ -8,14 +8,16 @@ import (
 	"log"
 	"net/http"
 
+	//internal service
 	pb "oauth2-go-service/auth"
 	"oauth2-go-service/config"
+	"oauth2-go-service/data"
+	"oauth2-go-service/logger"
+	"oauth2-go-service/model"
 
 	"github.com/gin-gonic/gin"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
-
-	"oauth2-go-service/logger"
 
 	"encoding/gob"
 
@@ -30,40 +32,6 @@ var (
 	oauthStateString = "pseudo-random"
 )
 
-//AuthContent auth content model
-type AuthContent struct {
-	ID            string `json:"id"`
-	Email         string `json:"email"`
-	VerifiedEmail bool   `json:"verified_email"`
-	Picture       string `json:"picture"`
-	DisplayName   string `json:"name"`
-}
-
-type AuthSession struct {
-	ID            string `json:"id"`
-	Email         string `json:"email"`
-	VerifiedEmail bool   `json:"verified_email"`
-	Picture       string `json:"picture"`
-	DisplayName   string `json:"name"`
-	Token         string `json:"token"`
-}
-
-type ResponseWallet struct {
-	Code    int         `json:"code"`
-	Message string      `json:"message"`
-	Result  interface{} `json:"resul"`
-}
-
-type GameInfo struct {
-	Link        string `json:"link"`
-	Category    string `json:"category"`
-	Name        string `json:"name"`
-	ExServiceId string `json:"ex_service_id"`
-	Token       string `json:"token"`
-}
-
-var authContent AuthContent
-var responseWallet ResponseWallet
 var client pb.AuthServiceClient
 
 func init() {
@@ -78,75 +46,41 @@ func init() {
 	connection, err := GetGrpcConnection()
 	if err != nil {
 		fmt.Println(err.Error())
+		return
 	}
 	client = pb.NewAuthServiceClient(connection)
-	gob.Register(&AuthSession{})
+	gob.Register(&model.SessionInfo{}) //must register to save struct data in session
 }
 
 // HandleMain handle main page
 func HandleMain(c *gin.Context) {
-
-	sessionData := AuthSession{}
+	listGameInfo := data.ListGameInfo
+	sessionData := model.SessionInfo{}
 	session := sessions.Default(c)
 	key := session.Get("UserID")
 	if key == nil {
-		listGameInfo := []GameInfo{
-			{
-				Link:        "https://iframe.dev.ktek.io/ktrng3998/?token=",
-				Category:    "rng",
-				Name:        "Sicbo",
-				ExServiceId: "ktrng3998",
-			},
-			{
-				Link:        "https://iframe.dev.ktek.io/ktrng3999/?token=",
-				Category:    "rng",
-				Name:        "LLQP",
-				ExServiceId: "ktrng3999",
-			},
-			{
-				Link:        "https://iframe.dev.ktek.io/ktf1999/?token=",
-				Category:    "fish",
-				Name:        "Fish 1",
-				ExServiceId: "ktf1999",
-			},
-		}
 		c.HTML(http.StatusOK, "main.tmpl", gin.H{
 			"listGameInfo": listGameInfo,
 		})
+		return
 	}
 	byetData, err := json.Marshal(key)
-	// sessionData = session.Get("UserID").(AuthContent)
 	if err != nil {
-		fmt.Errorf("fail to marshal session")
+		logger.Error(logrus.Fields{
+			"action": config.GetConfig("USER_ID_PREFIX") + "Handle Main",
+		}, "Fail to unmarshal session key : %s", err.Error())
+		return
 	}
 	json.Unmarshal(byetData, &sessionData)
-	listGameInfo := []GameInfo{
-		{
-			Link:        "https://iframe.dev.ktek.io/ktrng3998/?token=",
-			Category:    "rng",
-			Name:        "Sicbo",
-			ExServiceId: "ktrng3998",
-			Token:       sessionData.Token,
-		},
-		{
-			Link:        "https://iframe.dev.ktek.io/ktrng3999/?token=",
-			Category:    "rng",
-			Name:        "LLQP",
-			ExServiceId: "ktrng3999",
-			Token:       sessionData.Token,
-		},
-		{
-			Link:        "https://iframe.dev.ktek.io/ktf1999/?token=",
-			Category:    "fish",
-			Name:        "Fish 1",
-			ExServiceId: "ktf1999",
-			Token:       sessionData.Token,
-		},
+	listGameInfoToken := []model.GameInfo{}
+	for _, gameInfo := range listGameInfo {
+		gameInfo.Token = sessionData.Token
+		listGameInfoToken = append(listGameInfoToken, gameInfo)
 	}
 	c.HTML(http.StatusOK, "main.tmpl", gin.H{
 		"token":        sessionData.Token,
 		"displayName":  sessionData.DisplayName,
-		"listGameInfo": listGameInfo,
+		"listGameInfo": listGameInfoToken,
 	})
 }
 
@@ -154,13 +88,19 @@ func HandleMain(c *gin.Context) {
 func HandleGoogleCallback(c *gin.Context) {
 	content, token, err := getUserInfo(c.Query("state"), c.Query("code"))
 	if err != nil {
-		fmt.Println(err.Error())
+		logger.Error(logrus.Fields{
+			"userId": config.GetConfig("USER_ID_PREFIX") + content.Email,
+		}, "Fail to get user info : %s", err.Error())
 		c.Redirect(http.StatusTemporaryRedirect, "/")
+		return
 	}
 	responseGrpc, err := client.GetUserByUserId(context.Background(), &pb.UserIdRequest{UserId: config.GetConfig("USER_ID_PREFIX") + content.Email})
 	if err != nil {
-		fmt.Println(err.Error())
+		logger.Error(logrus.Fields{
+			"userId": config.GetConfig("USER_ID_PREFIX") + content.Email,
+		}, "Get user by user id fail: %s", err.Error())
 		c.Redirect(http.StatusTemporaryRedirect, "/")
+		return
 	}
 	if responseGrpc.DisplayName == "" {
 		requestRegister := &pb.RegisterRequest{
@@ -196,50 +136,55 @@ func HandleGoogleCallback(c *gin.Context) {
 		}
 		responseRegister, err := client.Register(context.Background(), requestRegister)
 		if err != nil {
-			fmt.Println(err.Error())
+			logger.Error(logrus.Fields{
+				"userId": config.GetConfig("USER_ID_PREFIX") + content.Email,
+			}, "Register fail with error : %s", err.Error())
 			c.Redirect(http.StatusTemporaryRedirect, "/")
+			return
 		}
 
 		if responseRegister.Errors != nil {
-			fmt.Println(err.Error())
+			logger.Error(logrus.Fields{
+				"userId": config.GetConfig("USER_ID_PREFIX") + content.Email,
+			}, "Register fail with error : %s", responseRegister.Errors)
 			c.Redirect(http.StatusTemporaryRedirect, "/")
+			return
 		}
 
 		logger.Debug(logrus.Fields{
 			"userId": config.GetConfig("USER_ID_PREFIX") + content.Email,
-		}, "register success")
+		}, "Register success")
 	} else {
 		logger.Debug(logrus.Fields{
 			"userId": config.GetConfig("USER_ID_PREFIX") + content.Email,
-		}, "account is exists")
+		}, "Account is exists")
 	}
 	responseSetToken, err := client.SetToken(context.Background(), &pb.SetTokenRequest{
 		UserId: config.GetConfig("USER_ID_PREFIX") + content.Email,
 		Token:  token,
 		Secret: config.GetConfig("SECRET"),
 	})
+
 	if err != nil {
-		fmt.Println(err.Error())
+		logger.Error(logrus.Fields{
+			"userId": config.GetConfig("USER_ID_PREFIX") + content.Email,
+		}, "Set token fail with error : %s", responseSetToken.Errors)
 		c.Redirect(http.StatusTemporaryRedirect, "/")
 	}
+
 	if responseSetToken.Errors != nil {
-		fmt.Println(responseSetToken.Errors)
+		logger.Error(logrus.Fields{
+			"userId": config.GetConfig("USER_ID_PREFIX") + content.Email,
+		}, "Set token fail with error : %s", responseSetToken.Errors)
 		c.Redirect(http.StatusTemporaryRedirect, "/")
+		return
 	}
 
 	logger.Debug(logrus.Fields{
 		"userId": config.GetConfig("USER_ID_PREFIX") + content.Email,
-	}, "set token success")
+	}, "Set token success")
 
-	// session.Set("UserID", map[string]interface{}{
-	// 	"id":            content.ID,
-	// 	"email":         content.Email,
-	// 	"displayName":   content.DisplayName,
-	// 	"verifiedEmail": content.VerifiedEmail,
-	// 	"picture":       content.Picture,
-	// 	"token":         token,
-	// })
-	dataSession := AuthSession{ID: content.ID,
+	dataSession := model.SessionInfo{ID: content.ID,
 		Email:         content.Email,
 		DisplayName:   content.DisplayName,
 		VerifiedEmail: content.VerifiedEmail,
@@ -249,77 +194,51 @@ func HandleGoogleCallback(c *gin.Context) {
 	session := sessions.Default(c)
 	session.Set("UserID", dataSession)
 	session.Save()
-	fmt.Println(err)
-
-	// return dataSession
 	c.Redirect(http.StatusPermanentRedirect, "/")
-	// c.HTML(http.StatusOK, "index.tmpl", gin.H{
-	// 	"id":            content.ID,
-	// 	"email":         content.Email,
-	// 	"displayName":   content.DisplayName,
-	// 	"verifiedEmail": content.VerifiedEmail,
-	// 	"picture":       content.Picture,
-	// 	"token":         token,
-	// })
+	return
 }
 
 // HandleGoogleLogin handle login
 func HandleGoogleLogin(c *gin.Context) {
-	// sessionData := AuthSession{}
 	session := sessions.Default(c)
 	key := session.Get("UserID")
-	fmt.Println(key)
 
 	if key == nil {
 		url := googleOauthConfig.AuthCodeURL(oauthStateString)
 		c.Redirect(http.StatusTemporaryRedirect, url)
 		return
 	}
-	// byetData, err := json.Marshal(key)
-	// // sessionData = session.Get("UserID").(AuthContent)
-	// if err != nil {
-	// 	fmt.Errorf("fail to marshal session")
-	// }
-	// json.Unmarshal(byetData, &sessionData)
-	// c.HTML(http.StatusOK, "index.tmpl", gin.H{
-	// 	"id":            sessionData.ID,
-	// 	"email":         sessionData.Email,
-	// 	"displayName":   sessionData.DisplayName,
-	// 	"verifiedEmail": sessionData.VerifiedEmail,
-	// 	"picture":       sessionData.Picture,
-	// 	"token":         sessionData.Token,
-	// })
 	c.Redirect(http.StatusTemporaryRedirect, "/")
 	return
-
-	// http.Redirect(w, r, url, http.StatusTemporaryRedirect)
 }
 
-func getUserInfo(state string, code string) (AuthContent, string, error) {
+func getUserInfo(state string, code string) (model.GoogleUserInfo, string, error) {
+	var userInfo model.GoogleUserInfo
 	if state != oauthStateString {
-		return authContent, "", fmt.Errorf("invalid oauth state")
+		return userInfo, "", fmt.Errorf("invalid oauth state")
 	}
 
 	token, err := googleOauthConfig.Exchange(oauth2.NoContext, code)
 	if err != nil {
-		return authContent, "", fmt.Errorf("code exchange failed: %s", err.Error())
+		return userInfo, "", fmt.Errorf("code exchange failed: %s", err.Error())
 	}
 
 	response, err := http.Get("https://www.googleapis.com/oauth2/v2/userinfo?access_token=" + token.AccessToken)
 	if err != nil {
-		return authContent, "", fmt.Errorf("failed getting user info: %s", err.Error())
+		return userInfo, "", fmt.Errorf("failed getting user info: %s", err.Error())
 	}
 
 	defer response.Body.Close()
 	contents, err := ioutil.ReadAll(response.Body)
 	if err != nil {
-		return authContent, "", fmt.Errorf("failed reading response body: %s", err.Error())
+		return userInfo, "", fmt.Errorf("failed reading response body: %s", err.Error())
 	}
-	err = json.Unmarshal(contents, &authContent)
+
+	err = json.Unmarshal(contents, &userInfo)
 	if err != nil {
-		return authContent, "", fmt.Errorf("failed to unmarshal response body: %s", err.Error())
+		return userInfo, "", fmt.Errorf("failed to unmarshal response body: %s", err.Error())
 	}
-	return authContent, token.AccessToken, nil
+	return userInfo, token.AccessToken, nil
 }
 
 // GetGrpcConnection get
