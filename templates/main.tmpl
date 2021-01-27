@@ -148,21 +148,25 @@
         .game-grid figcaption, .game-grid figcaption .d-table, .game-grid figcaption a {
             height: 100%;
             left: 0;
-            position: absolute;
+            position: relative;
             width: 100%;
             top: 0;
         }
         .game-grid figcaption {
-            background-color: rgba(0,0,0,.6);
-            opacity: 0;
+            /*background-color: rgba(0,0,0,.6);border-radius: .85rem;*/
+            opacity: 1;
             overflow: hidden;
-            border-radius: .85rem;
+            
         }
         .game-grid figure:hover figcaption {
             opacity: 1;
         }
         .game-filter .list-inline-item{
             margin-bottom: .5rem;
+        }
+        .game-name{
+            font-size: 1.2rem;
+            margin: .5rem 0 0 0;
         }
         .color-white{
             color: #fff;
@@ -178,16 +182,25 @@
         .footer a.nav-link{
             color: #fff;
         }
+        .navbar-brand{
+            color: #c0964d;
+            font-size: 25px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
 <div>
     <nav class="navbar navbar-expand-lg navbar-default">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/"><img src="https://www.fullphim.net/static/5fe2d564b3fa64a886a11cee/5fe2d564b3fa64a99ca11d1b_Full-phim-logo.png" alt=""></a>
+            <a class="navbar-brand" href="/">GEMITEK</a>
             <ul class="navbar-nav navbar-right-wrap ml-auto d-lg-block">
                 <li class="dropdown d-inline-block">
-                    <a href="{{if not .token}}/auth/google{{end}}" class="btn  btn-style-1">{{if .token}}Hi {{.displayName}}{{end}}{{if not .token}}Login{{end}}</a>
+                    {{if not .token}}<a href="/auth/google" class="btn  btn-style-1">Login</a>{{end}}
+                    {{if .token}}
+                    <span class="color-white">Hi, {{.displayName}} </span>&nbsp; <button class="btn  btn-style-1" id="logout">Logout</button>{{end}}
+                    
+                    <!--a href="{{if not .token}}/auth/google{{end}}" class="btn  btn-style-1">{{if .token}}Hi, {{.displayName}}{{end}}{{if not .token}}Login{{end}}</!--a-->
                 </li>
             </ul>
         </div>
@@ -364,9 +377,19 @@
                 e.preventDefault();
             });
         }
-        
-        $('.carousel').carousel()
+        $('#logout').on('click', function(e){
+            var cookies = document.cookie.split(";");
 
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i];
+                var eqPos = cookie.indexOf("=");
+                var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+                document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+            }
+            window.location.reload();
+        });
+        $('.carousel').carousel()
+        
     });
  </script>
 
