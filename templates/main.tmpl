@@ -187,7 +187,7 @@
             <a class="navbar-brand" href="/"><img src="https://www.fullphim.net/static/5fe2d564b3fa64a886a11cee/5fe2d564b3fa64a99ca11d1b_Full-phim-logo.png" alt=""></a>
             <ul class="navbar-nav navbar-right-wrap ml-auto d-lg-block">
                 <li class="dropdown d-inline-block">
-                    <a href="/auth/google" class="btn  btn-style-1">Sign In</a>
+                    <a href="{{if not .token}}/auth/google{{end}}" class="btn  btn-style-1">{{if .token}}Hi {{.displayName}}{{end}}{{if not .token}}Login{{end}}</a>
                 </li>
             </ul>
         </div>
