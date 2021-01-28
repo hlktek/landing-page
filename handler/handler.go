@@ -36,7 +36,7 @@ var client pb.AuthServiceClient
 
 func init() {
 	googleOauthConfig = &oauth2.Config{
-		RedirectURL:  "http://localhost:80/auth/google/callback",
+		RedirectURL:  config.GetConfig("CALLBACK_URL"),
 		ClientID:     config.GetConfig("GOOGLE_CLIENT_ID"),
 		ClientSecret: config.GetConfig("GOOGLE_CLIENT_SECRET"),
 		Scopes: []string{"https://www.googleapis.com/auth/userinfo.email",
