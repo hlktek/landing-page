@@ -130,7 +130,7 @@
                     {{range .listGameInfo}}
 
                             <div class="item {{.Category}}">
-                            <a {{if not .Token}}href="/auth/google"{{end}} {{if .Token}}href="{{.Link}}{{.Token}}"{{end}}>
+                            <a target="_blank" {{if not .Token}}href="/auth/google"{{end}} {{if .Token}}href="{{.Link}}{{.Token}}"{{end}}>
                                 <figure>
                                     <div class="game-img">
                                         <img src="/assets/images/games/game3.webp" alt="{{.Name}}">
