@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"oauth2-go-service/config"
 	"oauth2-go-service/router"
 )
 
@@ -13,7 +14,7 @@ func main() {
 	// 	})
 	// })
 	routerInit := router.InitRouter()
-	routerInit.Run(":3000")
+	routerInit.Run(config.GetConfig("PORT"))
 	server := &http.Server{
 		Handler: routerInit,
 	}
