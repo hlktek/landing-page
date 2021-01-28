@@ -1,0 +1,190 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+body,
+html {
+  height: 100%;
+  /*background: #000000;
+    color: #fff;*/
+  font-size: 16px;
+  font-family: "Montserrat", sans-serif;
+}
+a:hover{
+  text-decoration: none;
+}
+.btn-style-1 {
+  background: #393c3d;
+  background-image: linear-gradient(to bottom, #393c3d, #171719);
+  border-radius: 100px;
+  color: #ffffff;
+  padding-left: 1.75rem;
+  padding-right: 1.75rem;
+  font-weight: 700;
+  box-shadow: 1px -1px 10px 0px #1c1c1c;
+  -webkit-box-shadow: 1px -1px 10px 0px #1c1c1c;
+  -moz-box-shadow: 1px -1px 10px 0px #1c1c1c;
+  text-shadow: 1px -1px 10px 0px #1c1c1c;
+  border: solid #c0964d 0.25rem;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+}
+.btn-style-1:hover,
+.btn-style-1:focus,
+.btn-style-1.active {
+  background: #474b4d;
+  background-image: linear-gradient(to bottom, #474b4d, #171719);
+  text-decoration: none;
+  color: #e8a454;
+}
+.footer {
+  background-color: #222939;
+  color: #fff;
+}
+.section-hero {
+  padding: 80px 0;
+}
+.section-games {
+  padding: 50px 0;
+}
+.card {
+  border: 0;
+  box-shadow: 0 1px 3px rgb(3 0 71 / 9%);
+}
+.card-hover {
+  transition: box-shadow 0.25s ease;
+}
+.card-img-top {
+  border-radius: 10px;
+  transition: all 0.3s ease-out 0s;
+}
+.bg-signin-section {
+  background-image: url(https://static.tkbcdn.com/site/global/content-v2/img/home-search-bg-02.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.section-header {
+  margin: 0 0 50px 0;
+}
+.section-all-games {
+  background-image: url(https://bconf.amaxcode.com/img/home.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  color: #fff;
+  padding: 50px 0;
+}
+.section-all-games:before {
+  content: "";
+  display: block;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.6);
+}
+.game-grid.gutter-medium {
+  margin-left: 0px;
+}
+
+.game-grid .item {
+  float: left;
+}
+
+.game-grid.grid-col-3 .item {
+  width: 20%;
+}
+
+@media only screen and (max-width: 640px) {
+  .game-grid.grid-col-3 .item {
+    width: 50%;
+  }
+  .btn-filter-game {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+.game-grid.gutter-medium .item {
+  padding: 22px;
+}
+.game-grid figure {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+.game-grid figcaption,
+.game-grid img {
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+.game-grid img {
+  display: block;
+  position: relative;
+  top: 0;
+  width: 100%;
+}
+.game-grid figure:hover img {
+  transform: scale(1.2, 1.2);
+  -webkit-transform: scale(1.2, 1.2);
+  -ms-transform: scale(1.2, 1.2);
+}
+.game-img {
+  overflow: hidden;
+  border-radius: 0.85rem;
+}
+.game-grid figcaption,
+.game-grid img {
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+.game-grid figcaption,
+.game-grid figcaption .d-table,
+.game-grid figcaption a {
+  height: 100%;
+  left: 0;
+  position: relative;
+  width: 100%;
+  top: 0;
+}
+.game-grid figcaption {
+  /*background-color: rgba(0,0,0,.6);border-radius: .85rem;*/
+  opacity: 1;
+  overflow: hidden;
+}
+.game-grid figure:hover figcaption {
+  opacity: 1;
+}
+.game-filter .list-inline-item {
+  margin-bottom: 0.5rem;
+}
+.game-name {
+  font-size: 1.2rem;
+  margin: 0.5rem 0 0 0;
+}
+.game-amount {
+  font-size: 0.85rem;
+}
+.color-white {
+  color: #fff;
+}
+.navbar {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0px;
+  z-index: 99;
+  height: 80px;
+  background-color: #26282d;
+}
+.footer a.nav-link {
+  color: #fff;
+}
+.navbar-brand {
+  color: #c0964d;
+  font-size: 25px;
+  font-weight: bold;
+}
