@@ -5,7 +5,7 @@
     <title>GemiTek</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/assets/libs/bootstrap-4.6.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/assets/styles/main.css?v=1">
+    <link rel="stylesheet" href="/assets/styles/main.css?v=2">
 </head>
 <body>
 <div>
@@ -52,7 +52,7 @@
         </div>
     </section> */}}
 
-    <section class="bg-signin-section section-slide">
+    {{/* <section class="bg-signin-section section-slide">
         <div id="carouselGames" id="slide-banner" class="carousel slide" data-ride="carousel">
             <ol class="carousel-indicators">
                 <li data-target="#carouselGames" data-slide-to="0" class="active"></li>
@@ -75,103 +75,228 @@
                 <span class="sr-only">Next</span>
             </a>
             </div>
-    </section>
+    </section> */}}
     
-    <section class="section-games">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="text-center">Most Popular</h2>
-            </div>
-            <div class="row">
-                <div class="col-lg-6 col-md-6 col-12">
-                    <!-- Card -->
-                    <div class="card  mb-4 card-hover">
-                        <a href="/auth/google">
-                            <img src="/assets/images/games/game1.webp" alt="game1" class=" card-img-top">
-                        </a>
+    <section class="section-games bg-white">
+        <div class="container-fluid">
+            <div class="pl-md-4 pr-md-4">
+                <div class="section-header">
+                    <h2 class="text-center">Game mới nhất</h2>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-12">
+                        <!-- Card -->
+                        <div class="card mb-4 card-hover">
+                            <a href="/auth/google">
+                                <img src="/assets/images/games/game2.jpg" alt="game2" class=" card-img-top">
+                            </a>
+                        </div>
                     </div>
-                    <div class="card  mb-4 card-hover">
-                        <a href="/auth/google">
-                            <img src="/assets/images/games/game1.webp" alt="game1" class=" card-img-top">
-                        </a>
+                    <div class="col-md-4 col-12">
+                        <!-- Card -->
+                        <div class="card  mb-4 card-hover">
+                            <a href="/auth/google">
+                                <img src="/assets/images/games/game1.webp" alt="game1" class=" card-img-top">
+                            </a>
+                        </div>
+                        <div class="card  mb-4 card-hover">
+                            <a href="/auth/google">
+                                <img src="/assets/images/games/game1.webp" alt="game1" class=" card-img-top">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-12">
+                        <!-- Card -->
+                        <div class="card  mb-4 card-hover">
+                            <a href="/auth/google">
+                                <img src="/assets/images/games/game1.webp" alt="game1" class=" card-img-top">
+                            </a>
+                        </div>
+                        <div class="card  mb-4 card-hover">
+                            <a href="/auth/google">
+                                <img src="/assets/images/games/game1.webp" alt="game1" class=" card-img-top">
+                            </a>
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6 col-12">
-                    <!-- Card -->
-                    <div class="card  mb-4 card-hover">
-                        <a href="/auth/google">
-                            <img src="/assets/images/games/game2.jpg" alt="game2" class=" card-img-top">
-                        </a>
-                    </div>
-                </div>
-                
             </div>
-            
         </div>
     </section>
-    <!-- Section - Gallery Start -->
+
     <section id="all-games" class="section-all-games">
-        <div class="container">
-            
+        <div class="container-fluid">
             <div class="row">
-                <div class="col-12">
-                    <div class="game-filter">
-                        <ul class="mb-5 p-0 text-center">
-                            <li class="list-inline-item"><a href="#" data-filter="*" class="btn btn-sm btn-filter-game btn-style-1 ">All</a></li>
-                            <li class="list-inline-item"><a href="#" data-filter=".fish" class="btn btn-sm btn-filter-game btn-style-1">Fish game</a></li>
-                            <li class="list-inline-item"><a href="#" data-filter=".slot" class="btn btn-sm btn-filter-game btn-style-1">Slot game</a></li>
-                            <li class="list-inline-item"><a href="#" data-filter=".rng" class="btn btn-sm btn-filter-game btn-style-1">RNG game</a></li>
-                            <li class="list-inline-item"><a href="#" data-filter=".rng" class="btn btn-sm btn-filter-game btn-style-1">Card game</a></li>
-                            <li class="list-inline-item"><a href="#" data-filter=".chess" class="btn btn-sm btn-filter-game btn-style-1">Chess game</a></li>
+                <div class="col-lg-9 col-md-7 col-12">
+                    <div class="game-filter pt-4 pb-1">
+                        <ul class="mb-1 p-0">
+                            <li class="list-inline-item"><a href="#" data-filter="*" class="btn btn-sm btn-filter-game ">All</a></li>
+                            <li class="list-inline-item"><a href="#" data-filter=".fish" class="btn btn-sm btn-filter-game ">Fish game</a></li>
+                            <li class="list-inline-item"><a href="#" data-filter=".slot" class="btn btn-sm btn-filter-game ">Slot game</a></li>
+                            <li class="list-inline-item"><a href="#" data-filter=".rng" class="btn btn-sm btn-filter-game ">RNG game</a></li>
+                            <li class="list-inline-item"><a href="#" data-filter=".rng" class="btn btn-sm btn-filter-game ">Card game</a></li>
+                            <li class="list-inline-item"><a href="#" data-filter=".chess" class="btn btn-sm btn-filter-game ">Chess game</a></li>
                         </ul>
                     </div>
                     <!-- //.game-filter -->
                     <div class="game-grid-wrapper">
                         <div class="game-grid grid-col-3 gutter-medium">
-                    {{range .listGameInfo}}
-
-                            <div class="item {{.Category}}">
-                            <a target="_blank" {{if not .Token}}href="/auth/google"{{end}} {{if .Token}}href="{{.Link}}{{.Token}}"{{end}}>
-                                <figure>
-                                    <div class="game-img">
-                                        <img src="/assets/images/games/game3.webp" alt="{{.Name}}">
-                                    </div>
-                                    <figcaption class="text-center">
-                                        <div class="d-table color-white">
-                                            <div class="d-table-cell align-middle">
-                                                <h3 class="game-name">{{.Name}}</h3>
-                                                <div class="game-amount">$<span>1.054.768.000</span></div>
+                            {{range .listGameInfo}}
+                                <div class="item {{.Category}}">
+                                    <a target="_blank" {{if not .Token}}href="/auth/google"{{end}} {{if .Token}}href="{{.Link}}{{.Token}}"{{end}}>
+                                        <figure>
+                                            <div class="game-img">
+                                                <img src="/assets/images/games/game3.webp" alt="{{.Name}}">
                                             </div>
-                                        </div>
-                                    </figcaption>
-                                </figure>
-                                </a>
-                            </div>
+                                            <figcaption class="text-center">
+                                                <div class="d-table color-white">
+                                                    <div class="d-table-cell align-middle">
+                                                        <h3 class="game-name">{{.Name}}</h3>
+                                                        <div class="mt-3">
+                                                            <button class="btn btn-sm btn-filter-game btn-style-1">Chơi ngay</button>
+                                                        </div>
+                                                        {{/* <div class="game-amount">$<span>1.054.768.000</span></div> */}}
+                                                    </div>
+                                                </div>
+                                            </figcaption>
+                                        </figure>
+                                    </a>
+                                </div>
                             {{end}}
                         </div>
-                        <!-- //.game-grid -->
                     </div>
-                    <!-- //.game-grid-wrapper -->
                 </div>
-                <!-- //.col-12 -->
+                
+                <div class="col-lg-3 col-md-5 col-12 bg-black">
+                    <div class="aside-module pt-4 pb-4">
+                        <div class="aside-module-header">
+                            <h3>Giải độc đắc hiện tại</h3>
+                        </div>
+                        <div class="aside-module-body">
+                            <ul class="list-group list-group-flush list-jp">
+                                <li class="list-group-item">
+                                    <div class="media">
+                                        <img src="/assets/images/games/logo-game-de-mo.jpg" class="mr-3" alt="...">
+                                        <div class="media-body">
+                                            <div class="jp-game-name">FORTUNE GONG</div>
+                                            <div class="jp-game-total">150.000.000 ₫</div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="media">
+                                        <img src="/assets/images/games/logo-game-de-mo.jpg" class="mr-3" alt="...">
+                                        <div class="media-body">
+                                            <div class="jp-game-name">FORTUNE GONG</div>
+                                            <div class="jp-game-total">150.000.000 ₫</div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="media">
+                                        <img src="/assets/images/games/logo-game-de-mo.jpg" class="mr-3" alt="...">
+                                        <div class="media-body">
+                                            <div class="jp-game-name">FORTUNE GONG</div>
+                                            <div class="jp-game-total">150.000.000 ₫</div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="media">
+                                        <img src="/assets/images/games/logo-game-de-mo.jpg" class="mr-3" alt="...">
+                                        <div class="media-body">
+                                            <div class="jp-game-name">FORTUNE GONG</div>
+                                            <div class="jp-game-total">150.000.000 ₫</div>
+                                        </div>
+                                    </div>
+                                </li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="aside-module pt-4 pb-4">
+                        <div class="aside-module-header">
+                            <h3>Người thắng mới nhất</h3>
+                        </div>
+                        <div class="aside-module-body">
+                            <ul class="list-group list-group-flush list-jp">
+                                <li class="list-group-item">
+                                    <div class="media">
+                                        <div class="media-body">
+                                            <div class="jp-winner-name">John Doe</div>
+                                            <div class="jp-winner-game">Tỷ Phú Đại Dương</div>
+                                        </div>
+                                        <div class="jp-winner-total">
+                                            150.000.000 ₫
+                                        </div>
+                                        
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="media">
+                                        <div class="media-body">
+                                            <div class="jp-winner-name">John Doe</div>
+                                            <div class="jp-winner-game">Tỷ Phú Đại Dương</div>
+                                        </div>
+                                        <div class="jp-winner-total">
+                                            150.000.000 ₫
+                                        </div>
+                                        
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="media">
+                                        <div class="media-body">
+                                            <div class="jp-winner-name">John Doe</div>
+                                            <div class="jp-winner-game">Tỷ Phú Đại Dương</div>
+                                        </div>
+                                        <div class="jp-winner-total">
+                                            150.000.000 ₫
+                                        </div>
+                                        
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="media">
+                                        <div class="media-body">
+                                            <div class="jp-winner-name">John Doe</div>
+                                            <div class="jp-winner-game">Tỷ Phú Đại Dương</div>
+                                        </div>
+                                        <div class="jp-winner-total">
+                                            150.000.000 ₫
+                                        </div>
+                                        
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="media">
+                                        <div class="media-body">
+                                            <div class="jp-winner-name">John Doe</div>
+                                            <div class="jp-winner-game">Tỷ Phú Đại Dương</div>
+                                        </div>
+                                        <div class="jp-winner-total">
+                                            150.000.000 ₫
+                                        </div>
+                                        
+                                    </div>
+                                </li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                    
+                </div>
             </div>
-            <!-- //.row -->
         </div>
-        <!-- //.container -->
     </section>
-    <!-- //Section - Gallery End -->
-
-    
     
   </div>
   
 </div>
 <footer class="footer">
     <div class="container">
-        <div class="row align-items-center ">
-            <!-- Desc -->
+        <div class="row align-items-center">
             <div class="col-md-12 col-12 text-center pt-2 pb-2">
-                <span>© 2020 company. All Rights Reserved.</span>
+                <span>© 2021 company. All Rights Reserved.</span>
             </div>
         </div>
     </div>
