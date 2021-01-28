@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;1,400&display=swap");
 body,
 html {
   height: 100%;
@@ -7,7 +7,7 @@ html {
   font-size: 16px;
   font-family: "Montserrat", sans-serif;
 }
-a:hover{
+a:hover {
   text-decoration: none;
 }
 .btn-style-1 {
@@ -177,8 +177,11 @@ a:hover{
   position: sticky;
   top: 0px;
   z-index: 99;
-  height: 80px;
+  height: auto;
   background-color: #26282d;
+}
+.btn-collaped-white {
+  color: #fff !important;
 }
 .footer a.nav-link {
   color: #fff;
