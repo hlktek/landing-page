@@ -1,7 +1,12 @@
 $(document).ready(function () {
   var $galleryGrid = $(".game-grid");
+
   if ($.fn.isotope) {
-    $galleryGrid.isotope({ itemSelector: ".item", layoutMode: "masonry" });
+    $galleryGrid.imagesLoaded(function () {
+      $galleryGrid.isotope({ itemSelector: ".item", layoutMode: "masonry" });
+    });
+
+    // var $grid = $galleryGrid.isotope({ itemSelector: ".item", layoutMode: "masonry" });
     var $gridSelectors = $(".game-filter").find("a");
 
     $gridSelectors.on("click", function (e) {
@@ -31,5 +36,4 @@ $(document).ready(function () {
     }
     window.location.reload();
   });
-  
 });
