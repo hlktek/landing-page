@@ -21,7 +21,7 @@ func init() {
 	postBody, _ := json.Marshal(map[string]interface{}{
 		"paging": map[string]int{
 			"from": 0,
-			"size": 10,
+			"size": 100,
 		},
 		"query": map[string][]string{
 			"ignoreField": {"icon"},
