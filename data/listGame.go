@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"oauth2-go-service/config"
 	"oauth2-go-service/logger"
 	"oauth2-go-service/model"
 	"strings"
@@ -28,7 +29,7 @@ func init() {
 		},
 	})
 	responseBody := bytes.NewBuffer(postBody)
-	resp, err := http.Post("http://128.199.93.192:3025/kgame/v2/game-config/games/list-games", "application/json", responseBody)
+	resp, err := http.Post(config.GetConfig("GET_GAME_INFO_BO_URL")+config.GetConfig("GET_LIST_GAME_PATH"), "application/json", responseBody)
 	if err != nil {
 		log.Fatalf("An Error Occured %v", err)
 	}
