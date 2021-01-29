@@ -7,6 +7,8 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"net/http/httputil"
+	"net/url"
 
 	//internal service
 	pb "oauth2-go-service/auth"
@@ -216,6 +218,20 @@ func HandleGoogleLogin(c *gin.Context) {
 	}
 	c.Redirect(http.StatusTemporaryRedirect, "/")
 	return
+}
+
+// GetImage get image from BO
+func GetImage(c *gin.Context) {
+	imageName := c.Query("imageName")
+	target := config.GetConfig("GET_IMAGE_BO_URL")
+
+	remote, err := url.Parse(target)
+	if err != nil {
+		// checkErr("parse", err)
+	}
+	proxy := httputil.NewSingleHostReverseProxy(remote)
+	c.Request.URL.Path = "kgame/v2/game-config/images/" + imageName //Request API
+	proxy.ServeHTTP(c.Writer, c.Request)
 }
 
 func getUserInfo(state string, code string) (model.GoogleUserInfo, string, error) {

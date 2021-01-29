@@ -17,5 +17,6 @@ func InitRouter() *gin.Engine {
 	r.GET("/auth/google/callback", handler.HandleGoogleCallback)
 	r.GET("/auth/google", handler.HandleGoogleLogin)
 	r.GET("/", handler.HandleMain)
+	r.GET("/images", handler.GetImage)
 	return r
 }
