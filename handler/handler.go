@@ -59,7 +59,8 @@ func init() {
 
 // HandleMain handle main page
 func HandleMain(c *gin.Context) {
-	listGameInfo := data.ListGameInfo
+	listGameInfo := data.DataListGameBO.Data
+	fmt.Println(listGameInfo[0])
 	sessionData := model.SessionInfo{}
 	session := sessions.Default(c)
 	key := session.Get("UserID")
@@ -77,7 +78,7 @@ func HandleMain(c *gin.Context) {
 		return
 	}
 	json.Unmarshal(byetData, &sessionData)
-	listGameInfoToken := []model.GameInfo{}
+	listGameInfoToken := []model.GameInfoBO{}
 	for _, gameInfo := range listGameInfo {
 		gameInfo.Token = sessionData.Token
 		listGameInfoToken = append(listGameInfoToken, gameInfo)
