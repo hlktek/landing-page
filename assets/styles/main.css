@@ -41,7 +41,6 @@ a:hover {
 .footer {
   background-color: #25292d;
   color: #fff;
-  position: fixed;
   bottom: 0;
   width: 100%;
 }
@@ -102,6 +101,7 @@ a:hover {
 }
 .game-grid.gutter-medium .item {
   padding: 22px;
+  background: none;
 }
 @media only screen and (max-width: 1200px) {
   .game-grid.gutter-medium .item {
