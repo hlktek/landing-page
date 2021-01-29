@@ -223,14 +223,14 @@ func HandleGoogleLogin(c *gin.Context) {
 // GetImage get image from BO
 func GetImage(c *gin.Context) {
 	imageName := c.Query("imageName")
-	target := config.GetConfig("GET_IMAGE_BO_URL")
+	target := config.GetConfig("GET_GAME_INFO_BO_URL")
 
 	remote, err := url.Parse(target)
 	if err != nil {
 		// checkErr("parse", err)
 	}
 	proxy := httputil.NewSingleHostReverseProxy(remote)
-	c.Request.URL.Path = "kgame/v2/game-config/images/" + imageName //Request API
+	c.Request.URL.Path = config.GetConfig("GET_IMAGE_BO_PATH") + imageName //Request API
 	proxy.ServeHTTP(c.Writer, c.Request)
 }
 
