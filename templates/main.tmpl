@@ -5,7 +5,7 @@
     <title>GemiTek</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/assets/libs/bootstrap-4.6.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/assets/styles/main.css?v=2">
+    <link rel="stylesheet" href="/assets/styles/main.css?v=3">
 </head>
 <body>
 <div>
@@ -18,7 +18,7 @@
                 <button class="btn btn-collaped-white d-md-none p-0 ml-3" type="button" data-toggle="collapse" data-target="#bd-docs-nav" aria-controls="bd-docs-nav" aria-expanded="false" aria-label="Toggle docs navigation">
                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" role="img" focusable="false"><title>Menu</title><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"/></svg>
                 </button>
-                <ul id="bd-docs-nav" class="collapse navbar-nav navbar-right-wrap ml-auto d-lg-block">
+                <ul id="bd-docs-nav" class="collapse navbar-nav navbar-right-wrap ml-auto d-md-block">
                     <li class="dropdown d-inline-block">
                     
                         
@@ -81,7 +81,7 @@
         <div class="container-fluid">
             <div class="pl-md-4 pr-md-4">
                 <div class="section-header">
-                    <h2 class="text-center">Game mới nhất</h2>
+                    <h2>Game mới nhất</h2>
                 </div>
                 <div class="row">
                     <div class="col-md-4 col-12">
@@ -145,12 +145,12 @@
                                     <a target="_blank" {{if not .Token}}href="/auth/google"{{end}} {{if .Token}}href="{{.Link}}{{.Token}}"{{end}}>
                                         <figure>
                                             <div class="game-img">
-                                                <img src="/assets/images/games/game3.webp" alt="{{.Name}}">
+                                                <img src="/assets/images/games/1.webp" alt="{{.ServiceName}}">
                                             </div>
                                             <figcaption class="text-center">
                                                 <div class="d-table color-white">
                                                     <div class="d-table-cell align-middle">
-                                                        <h3 class="game-name">{{.Name}}</h3>
+                                                        <h3 class="game-name">{{.ServiceName}}</h3>
                                                         <div class="mt-3">
                                                             <button class="btn btn-sm btn-filter-game btn-style-1">Chơi ngay</button>
                                                         </div>
