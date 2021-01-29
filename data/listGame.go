@@ -49,7 +49,7 @@ func init() {
 		gameBoPoiter := &DataListGameBO.Data[i]
 		trimEx := strings.Replace(gameBO.ExServiceID, "_", "", -1)
 		gameBoPoiter.ExServiceID = trimEx
-		gameBoPoiter.Link = "https://iframe.staging.ktek.io/" + gameBoPoiter.ExServiceID + "/?token="
+		gameBoPoiter.Link = "https://iframe.staging.gemitek.dev/" + gameBoPoiter.ExServiceID + "/?token="
 	}
 
 	fmt.Println(DataListGameBO.Data)
