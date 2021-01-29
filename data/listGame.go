@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"oauth2-go-service/logger"
 	"oauth2-go-service/model"
+	"strings"
 
 	"github.com/sirupsen/logrus"
 )
@@ -42,6 +43,15 @@ func init() {
 		fmt.Println(err)
 		return
 	}
+
+	for i, gameBO := range DataListGameBO.Data {
+		gameBoPoiter := &DataListGameBO.Data[i]
+		trimEx := strings.Replace(gameBO.ExServiceID, "_", "", -1)
+		gameBoPoiter.ExServiceID = trimEx
+		gameBoPoiter.Link = "https://iframe.staging.ktek.io/" + gameBoPoiter.ExServiceID + "/?token="
+	}
+
+	fmt.Println(DataListGameBO.Data)
 
 	logger.Debug(logrus.Fields{
 		"action": "get-data-bo",
