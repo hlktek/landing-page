@@ -32,7 +32,7 @@ $(document).ready(function () {
   setInterval(function(){
     console.log("Hello"); 
     clearCookies('mysession');
-  }, 10800000); // 3 hours = 10800000 miliseconds
+  }, 3600000); // 3 hours = 10800000 miliseconds
 
   function clearCookies(cookieName) {
     var cookies = document.cookie.split(";");
