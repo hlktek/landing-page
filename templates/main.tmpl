@@ -169,47 +169,22 @@
                 <div class="col-lg-3 col-md-5 col-12 bg-black">
                     <div class="aside-module pt-4 pb-4">
                         <div class="aside-module-header">
-                            <h3>Giải độc đắc hiện tại</h3>
+                            <h3>Top người chơi nổ hủ cao nhất hôm nay</h3>
                         </div>
                         <div class="aside-module-body">
                             <ul class="list-group list-group-flush list-jp">
+                                {{range .jackpotData}}
                                 <li class="list-group-item">
                                     <div class="media">
-                                        <img src="/assets/images/games/logo-game-de-mo.jpg" class="mr-3" alt="...">
                                         <div class="media-body">
-                                            <div class="jp-game-name">FORTUNE GONG</div>
-                                            <div class="jp-game-total">150.000.000 ₫</div>
+                                            <div class="jp-winner-name">{{.DisplayName}}</div>
+                                        </div>
+                                        <div class="jp-winner-total">
+                                            {{.JackpotAmount}}
                                         </div>
                                     </div>
                                 </li>
-                                <li class="list-group-item">
-                                    <div class="media">
-                                        <img src="/assets/images/games/logo-game-de-mo.jpg" class="mr-3" alt="...">
-                                        <div class="media-body">
-                                            <div class="jp-game-name">FORTUNE GONG</div>
-                                            <div class="jp-game-total">150.000.000 ₫</div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item">
-                                    <div class="media">
-                                        <img src="/assets/images/games/logo-game-de-mo.jpg" class="mr-3" alt="...">
-                                        <div class="media-body">
-                                            <div class="jp-game-name">FORTUNE GONG</div>
-                                            <div class="jp-game-total">150.000.000 ₫</div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item">
-                                    <div class="media">
-                                        <img src="/assets/images/games/logo-game-de-mo.jpg" class="mr-3" alt="...">
-                                        <div class="media-body">
-                                            <div class="jp-game-name">FORTUNE GONG</div>
-                                            <div class="jp-game-total">150.000.000 ₫</div>
-                                        </div>
-                                    </div>
-                                </li>
-                                
+                                {{end}}
                             </ul>
                         </div>
                     </div>
