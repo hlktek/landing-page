@@ -215,70 +215,23 @@
                     </div>
                     <div class="aside-module pt-4 pb-4">
                         <div class="aside-module-header">
-                            <h3>Người thắng mới nhất</h3>
+                            <h3>Top người thắng hôm nay</h3>
                         </div>
                         <div class="aside-module-body">
                             <ul class="list-group list-group-flush list-jp">
+                            {{range .topWinnerData}}
                                 <li class="list-group-item">
                                     <div class="media">
                                         <div class="media-body">
-                                            <div class="jp-winner-name">John Doe</div>
-                                            <div class="jp-winner-game">Tỷ Phú Đại Dương</div>
+                                            <div class="jp-winner-name">{{.DisplayName}}</div>
                                         </div>
                                         <div class="jp-winner-total">
-                                            150.000.000 ₫
+                                            {{.TotalWin}}
                                         </div>
                                         
                                     </div>
                                 </li>
-                                <li class="list-group-item">
-                                    <div class="media">
-                                        <div class="media-body">
-                                            <div class="jp-winner-name">John Doe</div>
-                                            <div class="jp-winner-game">Tỷ Phú Đại Dương</div>
-                                        </div>
-                                        <div class="jp-winner-total">
-                                            150.000.000 ₫
-                                        </div>
-                                        
-                                    </div>
-                                </li>
-                                <li class="list-group-item">
-                                    <div class="media">
-                                        <div class="media-body">
-                                            <div class="jp-winner-name">John Doe</div>
-                                            <div class="jp-winner-game">Tỷ Phú Đại Dương</div>
-                                        </div>
-                                        <div class="jp-winner-total">
-                                            150.000.000 ₫
-                                        </div>
-                                        
-                                    </div>
-                                </li>
-                                <li class="list-group-item">
-                                    <div class="media">
-                                        <div class="media-body">
-                                            <div class="jp-winner-name">John Doe</div>
-                                            <div class="jp-winner-game">Tỷ Phú Đại Dương</div>
-                                        </div>
-                                        <div class="jp-winner-total">
-                                            150.000.000 ₫
-                                        </div>
-                                        
-                                    </div>
-                                </li>
-                                <li class="list-group-item">
-                                    <div class="media">
-                                        <div class="media-body">
-                                            <div class="jp-winner-name">John Doe</div>
-                                            <div class="jp-winner-game">Tỷ Phú Đại Dương</div>
-                                        </div>
-                                        <div class="jp-winner-total">
-                                            150.000.000 ₫
-                                        </div>
-                                        
-                                    </div>
-                                </li>
+                                {{end}}
                                 
                             </ul>
                         </div>
