@@ -13,7 +13,7 @@ import (
 	"golang.org/x/oauth2"
 )
 
-func getTopWinner(startDate time.Time, endDate time.Time) (model.TopWinner, error) {
+func getTopWinner(startDate time.Time, endDate time.Time, category string) (model.TopWinner, error) {
 	var topWinnerData model.TopWinner
 	var requestTW = model.TopWinnerRequest{
 		StartDate: startDate,
@@ -23,6 +23,7 @@ func getTopWinner(startDate time.Time, endDate time.Time) (model.TopWinner, erro
 		OrderBy:   "totalWinLoss",
 		OrderType: "desc",
 		UserType:  "user",
+		Category:  category,
 	}
 	byteRequestBody, err := json.Marshal(requestTW)
 	if err != nil {

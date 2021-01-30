@@ -63,7 +63,7 @@ func HandleMain(c *gin.Context) {
 	startDate := now.BeginningOfDay()
 	endDate := now.EndOfDay()
 
-	topWinnerData, err := getTopWinner(startDate, endDate)
+	topWinnerData, err := getTopWinner(startDate, endDate, "")
 	if err != nil {
 		logger.Error(logrus.Fields{
 			"action": "Get Top Winner Data",
@@ -227,6 +227,22 @@ func HandleGoogleLogin(c *gin.Context) {
 	}
 	c.Redirect(http.StatusTemporaryRedirect, "/")
 	return
+}
+
+//GetTopWinner by category
+func GetTopWinner(c *gin.Context) {
+	catetgory := c.Query("category")
+	startDate := now.BeginningOfDay()
+	endDate := now.EndOfDay()
+
+	topWinnerData, err := getTopWinner(startDate, endDate, catetgory)
+	if err != nil {
+		logger.Debug(logrus.Fields{
+			"action": "Get top winner by category",
+		}, "Fail to get top winner by category : %s", err.Error())
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": topWinnerData.Data.Data})
 }
 
 // GetImage get image from BO

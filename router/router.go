@@ -18,5 +18,6 @@ func InitRouter() *gin.Engine {
 	r.GET("/auth/google", handler.HandleGoogleLogin)
 	r.GET("/", handler.HandleMain)
 	r.GET("/images", handler.GetImage)
+	r.GET("/getTopWinner", handler.GetTopWinner)
 	return r
 }
