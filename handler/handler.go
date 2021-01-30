@@ -62,7 +62,12 @@ func init() {
 func HandleMain(c *gin.Context) {
 	startDate := now.BeginningOfDay()
 	endDate := now.EndOfDay()
-
+	jackpotData, err := getJackpotHistory(startDate, endDate)
+	if err != nil {
+		logger.Error(logrus.Fields{
+			"action": "Get Jackpot Data",
+		}, "Fail to get jackpot data: %s", err.Error())
+	}
 	topWinnerData, err := getTopWinner(startDate, endDate, "")
 	if err != nil {
 		logger.Error(logrus.Fields{
@@ -77,6 +82,7 @@ func HandleMain(c *gin.Context) {
 		c.HTML(http.StatusOK, "main.tmpl", gin.H{
 			"listGameInfo":  listGameInfo,
 			"topWinnerData": topWinnerData.Data.Data,
+			"jackpotData":   jackpotData.Data.Data,
 		})
 		return
 	}
@@ -98,6 +104,7 @@ func HandleMain(c *gin.Context) {
 		"displayName":   sessionData.DisplayName,
 		"listGameInfo":  listGameInfoToken,
 		"topWinnerData": topWinnerData.Data.Data,
+		"jackpotData":   jackpotData.Data.Data,
 	})
 }
 

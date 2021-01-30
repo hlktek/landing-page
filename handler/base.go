@@ -40,6 +40,29 @@ func getTopWinner(startDate time.Time, endDate time.Time, category string) (mode
 	return topWinnerData, nil
 }
 
+func getJackpotHistory(startDate time.Time, endDate time.Time) (model.JackpotHistory, error) {
+	var jackpotData model.JackpotHistory
+	var requestTW model.JackpotRequest
+	requestTW.Query.StartDate = startDate
+	requestTW.Query.EndDate = endDate
+	requestTW.Query.UserType = "user"
+	requestTW.Paging.From = 0
+	requestTW.Paging.Size = 10
+	byteRequestBody, err := json.Marshal(requestTW)
+	if err != nil {
+		return jackpotData, err
+	}
+	requestBody := bytes.NewBuffer(byteRequestBody)
+	response, err := http.Post(config.GetConfig("JACKPOT_URL"), "application/json", requestBody)
+	if err != nil {
+		return jackpotData, err
+	}
+	defer response.Body.Close()
+	responseBody, err := ioutil.ReadAll(response.Body)
+	err = json.Unmarshal(responseBody, &jackpotData)
+	return jackpotData, nil
+}
+
 func getUserInfo(state string, code string) (model.GoogleUserInfo, string, error) {
 	var userInfo model.GoogleUserInfo
 	if state != oauthStateString {
