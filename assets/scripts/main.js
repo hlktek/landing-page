@@ -49,4 +49,38 @@ $(document).ready(function () {
     }
   }
 
+  function formatNumber(number) {
+    return new Intl.NumberFormat('vi-VN', {
+      style: 'currency',
+      currency: 'VND',
+    }).format(number)
+  }
+
+  $(".nav-top-winner").on("click", function (e) {
+    $("#top-winners-nav").find('.nav-link').removeClass('active')
+    $(this).find('.nav-link').addClass('active')
+    var cat = $(this).data("cat");
+    var htmlStrTopWinner = "";
+    fetch('/getTopWinner?category='+cat)
+    .then(response => response.json())
+    .then(res => {
+      if(res && res.data && res.data.length>0){
+        res.data.forEach(element => {
+            htmlStrTopWinner += `<li class="list-group-item">
+                        <div class="media">
+                            <div class="media-body">
+                                <div class="jp-winner-name">`+element.displayName+`</div>
+                            </div>
+                            <div class="jp-winner-total">
+                            `+formatNumber(element.totalWin)+`
+                            </div>
+                            
+                        </div>
+                    </li>`
+        });
+        $("#top-winners-body").html(htmlStrTopWinner)
+      }
+    });
+  });
+
 });

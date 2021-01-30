@@ -5,7 +5,7 @@
     <title>GemiTek</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/assets/libs/bootstrap-4.6.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/assets/styles/main.css?v=4">
+    <link rel="stylesheet" href="/assets/styles/main.css?v=1">
 </head>
 <body>
 <div>
@@ -218,8 +218,25 @@
                             <h3>Top người thắng hôm nay</h3>
                         </div>
                         <div class="aside-module-body">
-                            <ul class="list-group list-group-flush list-jp">
-                            {{range .topWinnerData}}
+                            <ul id="top-winners-nav" class="nav nav-pills nav-fill mt-4 mb-4">
+                                <li class="nav-item nav-top-winner" data-cat="all">
+                                    <a class="nav-link active">All</a>
+                                </li>
+                                <li class="nav-item nav-top-winner" data-cat="slot">
+                                    <a class="nav-link">Slot</a>
+                                </li>
+                                <li class="nav-item nav-top-winner" data-cat="rng">
+                                    <a class="nav-link">RNG</a>
+                                </li>
+                                <li class="nav-item nav-top-winner" data-cat="fish">
+                                    <a class="nav-link">Fish</a>
+                                </li>
+                                <li class="nav-item nav-top-winner" data-cat="card">
+                                    <a class="nav-link">Card</a>
+                                </li>
+                            </ul>
+                            <ul id="top-winners-body" class="list-group list-group-flush list-jp">
+                                {{range .topWinnerData}}
                                 <li class="list-group-item">
                                     <div class="media">
                                         <div class="media-body">
@@ -232,7 +249,6 @@
                                     </div>
                                 </li>
                                 {{end}}
-                                
                             </ul>
                         </div>
                     </div>
@@ -259,7 +275,7 @@
 <script src="/assets/libs/bootstrap-4.6.0/js/bootstrap.bundle.min.js"></script>
 <script src="/assets/libs/isotope/isotope.pkgd.min.js"></script>
 <script src="/assets/libs/imagesloaded/imagesloaded.pkgd.min.js"></script>
-<script src="/assets/scripts/main.js?v=1"></script>
+<script src="/assets/scripts/main.js?v=2"></script>
 
 </body>
 </html> 

@@ -253,6 +253,17 @@ a:hover {
 .jp-winner-total {
   font-size: 1.5rem;
   font-weight: 700;
+  line-height: 1;
+  color: #c0964c;
+}
+.nav-pills .nav-link{
+  border-radius: 100px;
+  color: #545454;
+  padding: 0;
+  cursor: pointer;
+}
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link{
+  background-color: #222525;
 }
 @media only screen and (max-width: 1200px) and (min-width: 640px) {
   .list-jp .media,
