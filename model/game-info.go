@@ -1,5 +1,7 @@
 package model
 
+import "time"
+
 // GameInfo is model for ui
 type GameInfo struct {
 	Link        string `json:"link"`
@@ -31,4 +33,24 @@ type GameInfoBO struct {
 	ExServiceID string `json:"exServiceId,omitempty"`
 	Token       string `json:"token"`
 	Link        string `json:"link"`
+}
+
+// TopWinner top winner
+type TopWinner struct {
+	Code    int    `json:"code"`
+	Message string `json:"message"`
+	Data    struct {
+		Data []struct {
+			UserID       string `json:"userId"`
+			DisplayName  string `json:"displayName"`
+			UserType     string `json:"userType"`
+			TotalBet     int    `json:"totalBet"`
+			TotalWin     int64  `json:"totalWin"`
+			TotalWinLoss int64  `json:"totalWinLoss"`
+		} `json:"data"`
+	} `json:"data"`
+	Program   string    `json:"program"`
+	Version   string    `json:"version"`
+	Datetime  time.Time `json:"datetime"`
+	Timestamp int64     `json:"timestamp"`
 }

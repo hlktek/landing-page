@@ -3,12 +3,12 @@ package handler
 import (
 	"context"
 	"encoding/json"
-	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"net/http/httputil"
 	"net/url"
+
+	"github.com/jinzhu/now"
 
 	//internal service
 	pb "oauth2-go-service/auth"
@@ -32,9 +32,8 @@ var (
 	googleOauthConfig *oauth2.Config
 	// TODO: randomize it
 	oauthStateString = "pseudo-random"
+	client           pb.AuthServiceClient
 )
-
-var client pb.AuthServiceClient
 
 func init() {
 	googleOauthConfig = &oauth2.Config{
@@ -61,14 +60,23 @@ func init() {
 
 // HandleMain handle main page
 func HandleMain(c *gin.Context) {
+	startDate := now.BeginningOfDay()
+	endDate := now.EndOfDay()
+
+	topWinnerData, err := getTopWinner(startDate, endDate)
+	if err != nil {
+		logger.Error(logrus.Fields{
+			"action": "Get Top Winner Data",
+		}, "Fail to get top winner data: %s", err.Error())
+	}
 	listGameInfo := data.DataListGameBO.Data
-	fmt.Println(listGameInfo[0])
 	sessionData := model.SessionInfo{}
 	session := sessions.Default(c)
 	key := session.Get("UserID")
 	if key == nil {
 		c.HTML(http.StatusOK, "main.tmpl", gin.H{
-			"listGameInfo": listGameInfo,
+			"listGameInfo":  listGameInfo,
+			"topWinnerData": topWinnerData.Data.Data,
 		})
 		return
 	}
@@ -86,9 +94,10 @@ func HandleMain(c *gin.Context) {
 		listGameInfoToken = append(listGameInfoToken, gameInfo)
 	}
 	c.HTML(http.StatusOK, "main.tmpl", gin.H{
-		"token":        sessionData.Token,
-		"displayName":  sessionData.DisplayName,
-		"listGameInfo": listGameInfoToken,
+		"token":         sessionData.Token,
+		"displayName":   sessionData.DisplayName,
+		"listGameInfo":  listGameInfoToken,
+		"topWinnerData": topWinnerData.Data.Data,
 	})
 }
 
@@ -232,35 +241,6 @@ func GetImage(c *gin.Context) {
 	proxy := httputil.NewSingleHostReverseProxy(remote)
 	c.Request.URL.Path = config.GetConfig("GET_IMAGE_BO_PATH") + imageName //Request API
 	proxy.ServeHTTP(c.Writer, c.Request)
-}
-
-func getUserInfo(state string, code string) (model.GoogleUserInfo, string, error) {
-	var userInfo model.GoogleUserInfo
-	if state != oauthStateString {
-		return userInfo, "", fmt.Errorf("invalid oauth state")
-	}
-
-	token, err := googleOauthConfig.Exchange(oauth2.NoContext, code)
-	if err != nil {
-		return userInfo, "", fmt.Errorf("code exchange failed: %s", err.Error())
-	}
-
-	response, err := http.Get("https://www.googleapis.com/oauth2/v2/userinfo?access_token=" + token.AccessToken)
-	if err != nil {
-		return userInfo, "", fmt.Errorf("failed getting user info: %s", err.Error())
-	}
-
-	defer response.Body.Close()
-	contents, err := ioutil.ReadAll(response.Body)
-	if err != nil {
-		return userInfo, "", fmt.Errorf("failed reading response body: %s", err.Error())
-	}
-
-	err = json.Unmarshal(contents, &userInfo)
-	if err != nil {
-		return userInfo, "", fmt.Errorf("failed to unmarshal response body: %s", err.Error())
-	}
-	return userInfo, token.AccessToken, nil
 }
 
 // GetGrpcConnection get
