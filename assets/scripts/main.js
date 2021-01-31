@@ -73,7 +73,7 @@ $(document).ready(function () {
                                             <div class="jp-winner-name">`+element.displayName+`</div>
                                         </div>
                                         <div class="jp-winner-total">
-                                        `+formatNumber(element.totalWin)+`
+                                        `+formatNumber(element.totalWinLoss)+`
                                         </div>
                                         
                                     </div>
