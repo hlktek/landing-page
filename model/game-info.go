@@ -33,6 +33,7 @@ type GameInfoBO struct {
 	ExServiceID string `json:"exServiceId,omitempty"`
 	Token       string `json:"token"`
 	Link        string `json:"link"`
+	IsNewGame   bool   `isNewGame`
 }
 
 // TopWinner top winner response model
