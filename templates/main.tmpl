@@ -5,7 +5,7 @@
     <title>GemiTek</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/assets/libs/bootstrap-4.6.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/assets/styles/main.css?v=1">
+    <link rel="stylesheet" href="/assets/styles/main.css?v=2">
 </head>
 <body>
 <div>
@@ -80,10 +80,39 @@
     <section class="section-games bg-white">
         <div class="container-fluid">
             <div class="pl-md-4 pr-md-4">
+                {{if .listGameInfo}} 
                 <div class="section-header">
                     <h2>Game mới nhất</h2>
                 </div>
-                <div class="row">
+                <div class="game-grid-wrapper section-new-game">
+                    <div id="new-game-grid" class="game-grid grid-col-4 gutter-medium">
+                        {{range .listGameInfo}}
+                            {{ if .IsNewGame}}
+                                <div class="item">
+                                    <a target="_blank" {{if not .Token}}href="/auth/google"{{end}} {{if .Token}}href="{{.Link}}{{.Token}}"{{end}}>
+                                        <figure>
+                                            <div class="game-img">
+                                                <img src="/images?imageName=icon-{{.ServiceID}}.png" alt="{{.ServiceName}}">
+                                            </div>
+                                            <figcaption class="text-center">
+                                                <div class="d-table color-white">
+                                                    <div class="d-table-cell align-middle">
+                                                        <h3 class="game-name">{{.ServiceName}}</h3>
+                                                        <div class="mt-3">
+                                                            <button class="btn btn-sm btn-filter-game btn-style-1">Chơi ngay</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </figcaption>
+                                        </figure>
+                                    </a>
+                                </div>
+                            {{ end }}
+                        {{end}}
+                    </div>
+                </div>
+                {{end}}
+                {{/* <div class="row">
                     <div class="col-md-4 col-12">
                         <!-- Card -->
                         <div class="card mb-4 card-hover">
@@ -118,7 +147,7 @@
                             </a>
                         </div>
                     </div>
-                </div>
+                </div> */}}
             </div>
         </div>
     </section>
@@ -139,7 +168,7 @@
                     </div>
                     <!-- //.game-filter -->
                     <div class="game-grid-wrapper">
-                        <div class="game-grid grid-col-3 gutter-medium">
+                        <div id="list-game" class="game-grid grid-col-4 gutter-medium">
                             {{range .listGameInfo}}
                                 <div class="item {{.Category}}">
                                     <a target="_blank" {{if not .Token}}href="/auth/google"{{end}} {{if .Token}}href="{{.Link}}{{.Token}}"{{end}}>
@@ -167,27 +196,32 @@
                 </div>
                 
                 <div class="col-lg-3 col-md-5 col-12 bg-black">
-                    <div class="aside-module pt-4 pb-4">
-                        <div class="aside-module-header">
-                            <h3>Top người chơi nổ hũ gần đây</h3>
-                        </div>
-                        <div class="aside-module-body">
-                            <ul class="list-group list-group-flush list-jp">
-                                {{range .jackpotData}}
-                                <li class="list-group-item">
-                                    <div class="media">
-                                        <div class="media-body">
-                                            <div class="jp-winner-name">{{.DisplayName}}</div>
+                    {{if .jackpotData}} 
+                        <div class="aside-module pt-4 pb-4">
+                            <div class="aside-module-header">
+                                <h3>Top nổ hũ gần đây</h3>
+                            </div>
+                            <div class="aside-module-body">
+                                <ul id="jp-body" class="list-group list-group-flush list-jp">
+                                    {{range .jackpotData}}
+                                    <li class="list-group-item">
+                                        <div class="media">
+                                            <div class="media-body">
+                                                
+                                                <div class="jp-winner-name">{{.DisplayName}}</div>
+                                                <div class="jp-game-name">{{.DisplayName}}</div>
+                                            </div>
+                                            <div class="jp-winner-total">
+                                                {{ .JackpotAmount}}
+                                            </div>
                                         </div>
-                                        <div class="jp-winner-total">
-                                            {{.JackpotAmount}}
-                                        </div>
-                                    </div>
-                                </li>
-                                {{end}}
-                            </ul>
-                        </div>
-                    </div>
+                                    </li>
+                                    {{end}}
+                                </ul>
+                            </div>
+                        </div> 
+                    {{end}}
+                    
                     <div class="aside-module pt-4 pb-4">
                         <div class="aside-module-header">
                             <h3>Top người thắng hôm nay</h3>
@@ -211,7 +245,7 @@
                                 </li>
                             </ul>
                             <ul id="top-winners-body" class="list-group list-group-flush list-jp">
-                                {{range .topWinnerData}}
+                                {{/* {{range .topWinnerData}}
                                 <li class="list-group-item">
                                     <div class="media">
                                         <div class="media-body">
@@ -223,7 +257,7 @@
                                         
                                     </div>
                                 </li>
-                                {{end}}
+                                {{end}} */}}
                             </ul>
                         </div>
                     </div>
@@ -250,7 +284,7 @@
 <script src="/assets/libs/bootstrap-4.6.0/js/bootstrap.bundle.min.js"></script>
 <script src="/assets/libs/isotope/isotope.pkgd.min.js"></script>
 <script src="/assets/libs/imagesloaded/imagesloaded.pkgd.min.js"></script>
-<script src="/assets/scripts/main.js?v=2"></script>
+<script src="/assets/scripts/main.js?v=1"></script>
 
 </body>
 </html> 

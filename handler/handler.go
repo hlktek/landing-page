@@ -252,6 +252,22 @@ func GetTopWinner(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": topWinnerData.Data.Data})
 }
 
+//GetTopJackpot
+func GetJackpotHistory(c *gin.Context) {
+	startDate := now.BeginningOfDay()
+	endDate := now.EndOfDay()
+
+	jackpotData, err := getJackpotHistory(startDate, endDate)
+
+	if err != nil {
+		logger.Debug(logrus.Fields{
+			"action": "Get top jackpot",
+		}, "Fail to get top jackpot : %s", err.Error())
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": jackpotData.Data.Data})
+}
+
 // GetImage get image from BO
 func GetImage(c *gin.Context) {
 	imageName := c.Query("imageName")

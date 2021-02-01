@@ -96,7 +96,10 @@ a:hover {
   float: left;
 }
 
-.game-grid.grid-col-3 .item {
+.game-grid.grid-col-4 .item {
+  width: 25%;
+}
+.game-grid.grid-col-5 .item {
   width: 25%;
 }
 .game-grid.gutter-medium .item {
@@ -114,7 +117,7 @@ a:hover {
   }
 }
 @media only screen and (max-width: 640px) {
-  .game-grid.grid-col-3 .item {
+  .game-grid.grid-col-4 .item {
     width: 50%;
   }
   .game-grid.gutter-medium .item {
@@ -239,7 +242,8 @@ a:hover {
   background: none;
 }
 .jp-game-name {
-  font-size: 1rem;
+  font-size: 0.75rem;
+  color: #5f5f5f;
 }
 .jp-game-total {
   font-size: 1.5rem;
@@ -247,13 +251,19 @@ a:hover {
   font-weight: 700;
 }
 .jp-winner-game {
-  font-size: 0.75rem;
-  color: #5f5f5f;
+  
+  font-size: 1rem;
+  
 }
 .jp-winner-total {
   font-size: 1.5rem;
   font-weight: 700;
   line-height: 1;
+  color: #c0964c;
+}
+.jp-total {
+  font-size: 1.5rem;
+  font-weight: 700;
   color: #c0964c;
 }
 .nav-pills .nav-link{
@@ -264,6 +274,9 @@ a:hover {
 }
 .nav-pills .nav-link.active, .nav-pills .show>.nav-link{
   background-color: #222525;
+}
+.section-new-game{
+  min-height: 350px;
 }
 @media only screen and (max-width: 1200px) and (min-width: 640px) {
   .list-jp .media,

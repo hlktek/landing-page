@@ -1,7 +1,12 @@
 $(document).ready(function () {
-  var $galleryGrid = $(".game-grid");
+  var $newGameGrid = $("#new-game-grid");
+  var $galleryGrid = $("#list-game");
 
   if ($.fn.isotope) {
+    $newGameGrid.imagesLoaded(function () {
+      $newGameGrid.isotope({ itemSelector: ".item", layoutMode: "masonry" });
+    });
+
     $galleryGrid.imagesLoaded(function () {
       $galleryGrid.isotope({ itemSelector: ".item", layoutMode: "masonry" });
     });
@@ -34,6 +39,20 @@ $(document).ready(function () {
     clearCookies('mysession');
   }, 3600000); // 3 hours = 10800000 miliseconds
 
+  // getJackpotHistory
+  getJackpotHistory();
+
+  // get top winner
+  getTopWinner('all');
+
+  $(".nav-top-winner").on("click", function (e) {
+    $("#top-winners-nav").find('.nav-link').removeClass('active')
+    $(this).find('.nav-link').addClass('active')
+    var cat = $(this).data("cat");
+    getTopWinner(cat)
+    
+  });
+
   function clearCookies(cookieName) {
     var cookies = document.cookie.split(";");
 
@@ -56,11 +75,7 @@ $(document).ready(function () {
     }).format(number)
   }
 
-  $(".nav-top-winner").on("click", function (e) {
-    $("#top-winners-nav").find('.nav-link').removeClass('active')
-    $(this).find('.nav-link').addClass('active')
-    var cat = $(this).data("cat");
-    
+  function getTopWinner(cat) {
     fetch('/getTopWinner?category='+cat)
     .then(response => response.json())
     .then(res => {
@@ -87,6 +102,38 @@ $(document).ready(function () {
     }).catch(function() {
       $("#top-winners-body").html("<div class='text-center mt-3'>Có lỗi xin vui lòng thử lại</div>")
     });
-  });
+  }
+  
+  function getJackpotHistory() {
+    fetch('/getJackpotHistory')
+    .then(response => response.json())
+    .then(res => {
+      var htmlStrTopWinner = "";
+      if(res && res.data && res.data.length>0){
+        res.data.forEach(element => {
+            htmlStrTopWinner += `<li class="list-group-item">
+                                    <div class="media">
+                                        <div class="media-body">
+                                            <div class="jp-winner-game">`+element.displayName+`</div>
+                                            <div class="jp-game-name">`+element.serviceId+`</div>
+                                        </div>
+                                        <div class="jp-total">
+                                          `+formatNumber(element.jackpotAmount)+`
+                                        </div>
+                                        
+                                    </div>
+                                </li>`
+        });
+        $("#jp-body").html(htmlStrTopWinner)
+      } else {
+        $("#jp-body").html("<div class='text-center mt-3'>Không có data</div>")
+      }
+     
+    }).catch(function() {
+      $("#jp-body").html("<div class='text-center mt-3'>Có lỗi xin vui lòng thử lại</div>")
+    });
+  }
+
+  
 
 });
