@@ -35,16 +35,22 @@ $(document).ready(function () {
   });
   
   setInterval(function(){
-    console.log("Hello"); 
     clearCookies('mysession');
   }, 3600000); // 3 hours = 10800000 miliseconds
-
+  
   // getJackpotHistory
   getJackpotHistory();
 
+  setInterval(function(){
+    getJackpotHistory();
+  }, 300000); // 5 phut
+
   // get top winner
   getTopWinner('all');
-
+  setInterval(function(){
+    getTopWinner('all');
+  }, 300000); // 5 phut
+  
   $(".nav-top-winner").on("click", function (e) {
     $("#top-winners-nav").find('.nav-link').removeClass('active')
     $(this).find('.nav-link').addClass('active')
