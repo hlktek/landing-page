@@ -5,7 +5,7 @@
     <title>GemiTek</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/assets/libs/bootstrap-4.6.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/assets/styles/main.css?v=2">
+    <link rel="stylesheet" href="/assets/styles/main.css?v=5">
 </head>
 <body>
 <div>
@@ -155,17 +155,30 @@
     <section id="all-games" class="section-all-games">
         <div class="container-fluid">
             <div class="row">
+                
                 <div class="col-lg-9 col-md-7 col-12">
-                    <div class="game-filter pt-4 pb-1">
-                        <ul class="mb-1 p-0">
-                            <li class="list-inline-item"><a href="#" data-filter="*" class="btn btn-sm btn-filter-game actived">All</a></li>
-                            <li class="list-inline-item"><a href="#" data-filter=".fish" class="btn btn-sm btn-filter-game ">Fish game</a></li>
-                            <li class="list-inline-item"><a href="#" data-filter=".slot" class="btn btn-sm btn-filter-game ">Slot game</a></li>
-                            <li class="list-inline-item"><a href="#" data-filter=".rng" class="btn btn-sm btn-filter-game ">RNG game</a></li>
-                            <li class="list-inline-item"><a href="#" data-filter=".rng" class="btn btn-sm btn-filter-game ">Card game</a></li>
-                            <li class="list-inline-item"><a href="#" data-filter=".chess" class="btn btn-sm btn-filter-game ">Chess game</a></li>
-                        </ul>
+                    <div class="row">
+                        <div class="col-lg-9 col-md-12 col-12">
+                            <div class="game-filter pt-4 pb-1">
+                                <ul class="mb-1 p-0">
+                                    <li class="list-inline-item"><a href="#" data-filter="*" class="btn btn-sm btn-filter-game actived">All</a></li>
+                                    <li class="list-inline-item"><a href="#" data-filter=".fish" class="btn btn-sm btn-filter-game ">Fish game</a></li>
+                                    <li class="list-inline-item"><a href="#" data-filter=".slot" class="btn btn-sm btn-filter-game ">Slot game</a></li>
+                                    <li class="list-inline-item"><a href="#" data-filter=".rng" class="btn btn-sm btn-filter-game ">RNG game</a></li>
+                                    <li class="list-inline-item"><a href="#" data-filter=".rng" class="btn btn-sm btn-filter-game ">Card game</a></li>
+                                    <li class="list-inline-item"><a href="#" data-filter=".chess" class="btn btn-sm btn-filter-game ">Chess game</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-12 col-12">
+                            <div class="game-search pt-4 pb-1">
+                                <div class="form-group">
+                                    <input type="text" placeholder="Search by Id or Name ..." class="form-control-plaintext color-white form-control form-control-sm" id="searchTerm">
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                    
                     <!-- //.game-filter -->
                     <div class="game-grid-wrapper">
                         <div id="list-game" class="game-grid grid-col-4 gutter-medium">
@@ -180,6 +193,7 @@
                                                 <div class="d-table color-white">
                                                     <div class="d-table-cell align-middle">
                                                         <h3 class="game-name">{{.ServiceName}}</h3>
+                                                        <div class="game-id invisible">{{.ServiceID}}</div>
                                                         <div class="mt-3">
                                                             <button class="btn btn-sm btn-filter-game btn-style-1">Chơi ngay</button>
                                                         </div>
@@ -243,6 +257,9 @@
                                 <li class="nav-item nav-top-winner" data-cat="card">
                                     <a class="nav-link">Card</a>
                                 </li>
+                                <li class="nav-item nav-top-winner" data-cat="chess">
+                                    <a class="nav-link">Chess</a>
+                                </li>
                             </ul>
                             <ul id="top-winners-body" class="list-group list-group-flush list-jp">
                                 {{/* {{range .topWinnerData}}
@@ -284,7 +301,7 @@
 <script src="/assets/libs/bootstrap-4.6.0/js/bootstrap.bundle.min.js"></script>
 <script src="/assets/libs/isotope/isotope.pkgd.min.js"></script>
 <script src="/assets/libs/imagesloaded/imagesloaded.pkgd.min.js"></script>
-<script src="/assets/scripts/main.js?v=1"></script>
+<script src="/assets/scripts/main.js?v=3"></script>
 
 </body>
 </html> 
