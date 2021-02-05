@@ -62,32 +62,6 @@ a:hover {
   border-radius: 10px;
   transition: all 0.3s ease-out 0s;
 }
-.bg-signin-section {
-  background-image: url(https://static.tkbcdn.com/site/global/content-v2/img/home-search-bg-02.jpg);
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-.section-header {
-  margin: 0 0 50px 0;
-}
-.section-all-games {
-  /* background-image: url(https://bconf.amaxcode.com/img/home.jpg);
-  background-repeat: no-repeat;
-  background-size: cover;
-  position: relative;
-  color: #fff; */
-  /* padding: 50px 0; */
-}
-.section-all-games:before {
-  /* content: "";
-  display: block;
-  height: 100%;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 100%; */
-  /* background: rgba(0, 0, 0, 0.6); */
-}
 .game-grid.gutter-medium {
   margin-left: 0px;
 }
@@ -130,7 +104,7 @@ a:hover {
 }
 
 .game-grid figure {
-  height: 100%;
+  /* height: 100%; */
   margin: 0;
   overflow: hidden;
   position: relative;
@@ -149,23 +123,23 @@ a:hover {
   top: 0;
   width: 100%;
 }
-.game-grid figure:hover img {
+/* .game-grid figure:hover img {
   transform: scale(1.2, 1.2);
   -webkit-transform: scale(1.2, 1.2);
   -ms-transform: scale(1.2, 1.2);
-}
+} */
 .game-img {
   overflow: hidden;
   border-radius: 0.85rem;
   min-height: 150px;
 }
-.game-grid figcaption,
+/* .game-grid figcaption,
 .game-grid img {
   -webkit-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;
   -o-transition: all 0.3s ease;
   transition: all 0.3s ease;
-}
+} */
 .game-grid figcaption,
 .game-grid figcaption .d-table,
 .game-grid figcaption a {
@@ -285,6 +259,16 @@ a:hover {
 }
 #searchTerm:focus {
   background: none;
+}
+.list-jp {
+  min-height: 100px;
+}
+.list-jp .spin-loading {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -10px;
+  margin-top: -10px;
 }
 @media only screen and (max-width: 1200px) and (min-width: 640px) {
   .list-jp .media,

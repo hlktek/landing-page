@@ -3,22 +3,29 @@ $(document).ready(function () {
   var $galleryGrid = $("#list-game");
 
   if ($.fn.isotope) {
-    $newGameGrid.imagesLoaded(function () {
-      $newGameGrid.isotope({ itemSelector: ".item", layoutMode: "masonry" });
-    });
+    // $newGameGrid.imagesLoaded(function () {
+    //   $newGameGrid.isotope({ itemSelector: ".item", layoutMode: "fitRows" });
+    // });
 
-    $galleryGrid.imagesLoaded(function () {
-      $galleryGrid.isotope({ itemSelector: ".item", layoutMode: "masonry" });
-    });
+    // $galleryGrid.imagesLoaded(function () {
+    //   $galleryGrid.isotope({
+    //     itemSelector: ".item",
+    //     layoutMode: "fitColumns",
+    //     percentPosition: true,
+    //     // masonry: {
+    //     //   columnWidth: ".grid-sizer",
+    //     // },
+    //   });
+    // });
 
     // var $grid = $galleryGrid.isotope({ itemSelector: ".item", layoutMode: "masonry" });
     var $gridSelectors = $(".game-filter").find("a");
 
     $gridSelectors.on("click", function (e) {
       var selector = $(this).attr("data-filter");
-
       $galleryGrid.isotope({
         filter: selector,
+        layoutMode: "fitRows",
       });
 
       $gridSelectors.removeClass("actived");
@@ -97,6 +104,7 @@ $(document).ready(function () {
   }
 
   function getTopWinner(cat) {
+    $("#top-winners-body").html('<div class="spinner-border spin-loading" role="status"></div>');
     fetch("/getTopWinner?category=" + cat)
       .then((response) => response.json())
       .then((res) => {
@@ -116,7 +124,7 @@ $(document).ready(function () {
               formatNumber(element.totalWinLoss) +
               `
                                         </div>
-                                        
+
                                     </div>
                                 </li>`;
           });

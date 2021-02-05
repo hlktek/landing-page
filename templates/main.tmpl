@@ -5,7 +5,7 @@
     <title>GemiTek</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/assets/libs/bootstrap-4.6.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/assets/styles/main.css?v=5">
+    <link rel="stylesheet" href="/assets/styles/main.css?v=6">
 </head>
 <body>
 <div>
@@ -85,15 +85,15 @@
                     <h2>Game mới nhất</h2>
                 </div>
                 <div class="game-grid-wrapper section-new-game">
-                    <div id="new-game-grid" class="game-grid grid-col-4 gutter-medium">
+                    <div id="new-game-grid" class="game-grid grid-col-4 gutter-medium row">
                         {{range .listGameInfo}}
                             {{ if .IsNewGame}}
                                 {{if .Active}}
-                                <div class="item">
+                                <div class="item col-md-3">
                                     <a target="_blank" {{if not .Token}}href="/auth/google"{{end}} {{if .Token}}href="{{.Link}}{{.Token}}"{{end}}>
                                         <figure>
                                             <div class="game-img">
-                                                <img src="/images?imageName=icon-{{.ServiceID}}.png" alt="{{.ServiceName}}">
+                                                <img src="/images?imageName=icon-{{.ServiceID}}.png" alt="{{.ServiceName}}" />
                                             </div>
                                             <figcaption class="text-center">
                                                 <div class="d-table color-white">
@@ -167,7 +167,7 @@
                                     <li class="list-inline-item"><a href="#" data-filter=".fish" class="btn btn-sm btn-filter-game ">Fish game</a></li>
                                     <li class="list-inline-item"><a href="#" data-filter=".slot" class="btn btn-sm btn-filter-game ">Slot game</a></li>
                                     <li class="list-inline-item"><a href="#" data-filter=".rng" class="btn btn-sm btn-filter-game ">RNG game</a></li>
-                                    <li class="list-inline-item"><a href="#" data-filter=".rng" class="btn btn-sm btn-filter-game ">Card game</a></li>
+                                    <li class="list-inline-item"><a href="#" data-filter=".card" class="btn btn-sm btn-filter-game ">Card game</a></li>
                                     <li class="list-inline-item"><a href="#" data-filter=".chess" class="btn btn-sm btn-filter-game ">Chess game</a></li>
                                 </ul>
                             </div>
@@ -183,14 +183,14 @@
                     
                     <!-- //.game-filter -->
                     <div class="game-grid-wrapper">
-                        <div id="list-game" class="game-grid grid-col-4 gutter-medium">
+                        <div id="list-game" class="game-grid grid-col-4 gutter-medium row">
                             {{range .listGameInfo}}
                             {{if .Active}}
-                                <div class="item {{.Category}}">
+                                <div class="item col-md-3 {{.Category}}">
                                     <a target="_blank" {{if not .Token}}href="/auth/google"{{end}} {{if .Token}}href="{{.Link}}{{.Token}}"{{end}}>
                                         <figure>
                                             <div class="game-img">
-                                                <img src="/images?imageName=icon-{{.ServiceID}}.png" alt="{{.ServiceName}}">
+                                                <img src="/images?imageName=icon-{{.ServiceID}}.png" alt="{{.ServiceName}}" />
                                             </div>
                                             <figcaption class="text-center">
                                                 <div class="d-table color-white">
@@ -265,7 +265,9 @@
                                     <a class="nav-link">Chess</a>
                                 </li>
                             </ul>
-                            <ul id="top-winners-body" class="list-group list-group-flush list-jp">
+                            
+
+                            <ul id="top-winners-body" class="list-group list-group-flush list-jp position-relative">
                                 {{/* {{range .topWinnerData}}
                                 <li class="list-group-item">
                                     <div class="media">
@@ -305,7 +307,7 @@
 <script src="/assets/libs/bootstrap-4.6.0/js/bootstrap.bundle.min.js"></script>
 <script src="/assets/libs/isotope/isotope.pkgd.min.js"></script>
 <script src="/assets/libs/imagesloaded/imagesloaded.pkgd.min.js"></script>
-<script src="/assets/scripts/main.js?v=3"></script>
+<script src="/assets/scripts/main.js?v=5"></script>
 
 </body>
 </html> 
