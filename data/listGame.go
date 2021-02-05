@@ -19,6 +19,19 @@ import (
 var DataListGameBO = model.GameBOConfig{}
 
 func init() {
+	getListGame()
+	// for {
+	// 	time.Sleep(time.Second * 10)
+	// 	getListGame()
+	// }
+}
+
+func getListGame() {
+	defer func() {
+		if err := recover(); err != nil {
+			fmt.Println(err)
+		}
+	}()
 	postBody, _ := json.Marshal(map[string]interface{}{
 		"paging": map[string]int{
 			"from": 0,
@@ -31,7 +44,8 @@ func init() {
 	responseBody := bytes.NewBuffer(postBody)
 	resp, err := http.Post(config.GetConfig("GET_GAME_INFO_BO_URL")+config.GetConfig("GET_LIST_GAME_PATH"), "application/json", responseBody)
 	if err != nil {
-		log.Fatalf("An Error Occured %v", err)
+		// log.Fatalf("An Error Occured %v", err)
+		panic(err)
 	}
 	defer resp.Body.Close()
 	//Read the response body
@@ -51,9 +65,6 @@ func init() {
 		gameBoPoiter.ExServiceID = trimEx
 		gameBoPoiter.Link = "https://iframe.staging.gemitek.dev/" + gameBoPoiter.ExServiceID + "/?token="
 	}
-
-	fmt.Println(DataListGameBO.Data)
-
 	logger.Debug(logrus.Fields{
 		"action": "get-data-bo",
 	}, "Get data list game from BO success")

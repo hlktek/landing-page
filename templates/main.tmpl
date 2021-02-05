@@ -88,6 +88,7 @@
                     <div id="new-game-grid" class="game-grid grid-col-4 gutter-medium">
                         {{range .listGameInfo}}
                             {{ if .IsNewGame}}
+                                {{if .Active}}
                                 <div class="item">
                                     <a target="_blank" {{if not .Token}}href="/auth/google"{{end}} {{if .Token}}href="{{.Link}}{{.Token}}"{{end}}>
                                         <figure>
@@ -107,6 +108,7 @@
                                         </figure>
                                     </a>
                                 </div>
+                                {{ end }}
                             {{ end }}
                         {{end}}
                     </div>
@@ -183,6 +185,7 @@
                     <div class="game-grid-wrapper">
                         <div id="list-game" class="game-grid grid-col-4 gutter-medium">
                             {{range .listGameInfo}}
+                            {{if .Active}}
                                 <div class="item {{.Category}}">
                                     <a target="_blank" {{if not .Token}}href="/auth/google"{{end}} {{if .Token}}href="{{.Link}}{{.Token}}"{{end}}>
                                         <figure>
@@ -204,6 +207,7 @@
                                         </figure>
                                     </a>
                                 </div>
+                                {{end}}
                             {{end}}
                         </div>
                     </div>
