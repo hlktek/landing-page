@@ -23,10 +23,13 @@ $(document).ready(function () {
 
     $gridSelectors.on("click", function (e) {
       var selector = $(this).attr("data-filter");
-      $galleryGrid.isotope({
-        filter: selector,
-        layoutMode: "fitRows",
-      });
+      $galleryGrid.find(".item").not(selector).hide();
+      $galleryGrid.find(selector).fadeIn();
+      // console.log(selector);
+      // $galleryGrid.isotope({
+      //   filter: selector,
+      //   layoutMode: "fitRows",
+      // });
 
       $gridSelectors.removeClass("actived");
       $(this).addClass("actived");

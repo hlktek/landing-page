@@ -69,21 +69,25 @@ a:hover {
 .game-grid .item {
   float: left;
 }
-
+/* 
 .game-grid.grid-col-4 .item {
   width: 25%;
 }
 .game-grid.grid-col-5 .item {
   width: 25%;
-}
+} */
 .game-grid.gutter-medium .item {
   padding: 22px;
   background: none;
+  vertical-align: middle;
+  align-items: center;
+  justify-content: center;
+  display: flex;
 }
 @media only screen and (max-width: 1200px) {
-  .game-grid.gutter-medium .item {
+  /* .game-grid.gutter-medium .item {
     width: 33.33%;
-  }
+  } */
 }
 @media only screen and (max-width: 992px) {
   .game-grid.gutter-medium .item {
@@ -91,9 +95,9 @@ a:hover {
   }
 }
 @media only screen and (max-width: 640px) {
-  .game-grid.grid-col-4 .item {
+  /* .game-grid.grid-col-4 .item {
     width: 50%;
-  }
+  } */
   .game-grid.gutter-medium .item {
     padding: 11px;
   }
@@ -193,6 +197,12 @@ a:hover {
 .game-filter {
   padding-left: 22px;
 }
+@media only screen and (max-width: 640px) {
+  .game-filter {
+    padding-left: 0px;
+  }
+}
+
 .btn-filter-game,
 .btn-filter-game:focus,
 .btn-filter-game:hover {

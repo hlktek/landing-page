@@ -89,7 +89,7 @@
                         {{range .listGameInfo}}
                             {{ if .IsNewGame}}
                                 {{if .Active}}
-                                <div class="item col-md-3">
+                                <div class="item col-xl-3 col-md-3 col-6">
                                     <a target="_blank" {{if not .Token}}href="/auth/google"{{end}} {{if .Token}}href="{{.Link}}{{.Token}}"{{end}}>
                                         <figure>
                                             <div class="game-img">
@@ -186,7 +186,7 @@
                         <div id="list-game" class="game-grid grid-col-4 gutter-medium row">
                             {{range .listGameInfo}}
                             {{if .Active}}
-                                <div class="item col-md-3 {{.Category}}">
+                                <div class="item col-xl-3 col-md-4 col-6 {{.Category}}">
                                     <a target="_blank" {{if not .Token}}href="/auth/google"{{end}} {{if .Token}}href="{{.Link}}{{.Token}}"{{end}}>
                                         <figure>
                                             <div class="game-img">
