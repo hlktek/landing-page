@@ -252,6 +252,21 @@ func GetTopWinner(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": topWinnerData.Data.Data})
 }
 
+//GetTopWinnerChess by category
+func GetTopWinnerChess(c *gin.Context) {
+	startDate := now.BeginningOfDay()
+	endDate := now.EndOfDay()
+
+	topWinnerData, err := getTopWinnerChess(startDate, endDate)
+	if err != nil {
+		logger.Debug(logrus.Fields{
+			"action": "Get top winner chess",
+		}, "Fail to get top winner chess : %s", err.Error())
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": topWinnerData.Data.Data})
+}
+
 //GetTopJackpot
 func GetJackpotHistory(c *gin.Context) {
 	startDate := now.BeginningOfDay()

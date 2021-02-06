@@ -16,6 +16,10 @@ type TopWinnerRequest struct {
 	From        int       `json:"from"`
 	Size        int       `json:"size"`
 }
+type TopWinnerChessRequest struct {
+	StartDate time.Time `json:"startDate"`
+	EndDate   time.Time `json:"endDate"`
+}
 
 // JackpotRequest jackpot request
 type JackpotRequest struct {

@@ -19,6 +19,8 @@ func InitRouter() *gin.Engine {
 	r.GET("/", handler.HandleMain)
 	r.GET("/images", handler.GetImage)
 	r.GET("/getTopWinner", handler.GetTopWinner)
+	r.GET("/getTopWnnerChess", handler.GetTopWinnerChess)
 	r.GET("/getJackpotHistory", handler.GetJackpotHistory)
+
 	return r
 }

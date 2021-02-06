@@ -40,6 +40,27 @@ func getTopWinner(startDate time.Time, endDate time.Time, category string) (mode
 	return topWinnerData, nil
 }
 
+func getTopWinnerChess(startDate time.Time, endDate time.Time) (model.TopWinnerChess, error) {
+	var topWinnerChessData model.TopWinnerChess
+	var request = model.TopWinnerChessRequest{
+		StartDate: startDate,
+		EndDate:   endDate,
+	}
+	byteRequestBody, err := json.Marshal(request)
+	if err != nil {
+		return topWinnerChessData, err
+	}
+	requestBody := bytes.NewBuffer(byteRequestBody)
+	response, err := http.Post(config.GetConfig("TOP_WINNER_CHESS_URL"), "application/json", requestBody)
+	if err != nil {
+		return model.TopWinnerChess{}, err
+	}
+	defer response.Body.Close()
+	responseBody, err := ioutil.ReadAll(response.Body)
+	err = json.Unmarshal(responseBody, &topWinnerChessData)
+	return topWinnerChessData, nil
+}
+
 func getJackpotHistory(startDate time.Time, endDate time.Time) (model.JackpotHistory, error) {
 	var jackpotData model.JackpotHistory
 	var requestTW model.JackpotRequest

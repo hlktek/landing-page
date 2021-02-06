@@ -57,6 +57,29 @@ type TopWinner struct {
 	Timestamp int64     `json:"timestamp"`
 }
 
+// TopWinnerChess top winner response model
+type TopWinnerChess struct {
+	Code    int    `json:"code"`
+	Message string `json:"message"`
+	Data    struct {
+		Data []struct {
+			User struct {
+				UserID      string `json:"userId"`
+				DisplayName string `json:"displayName"`
+				Type        string `json:"type"`
+				BrandId     string `json:"brandId"`
+			} `json:"user"`
+			TotalLoseCount int   `json:"totalLoseCount"`
+			TotalDrawCount int64 `json:"totalDrawCount"`
+			TotalWinCount  int64 `json:"totalWinCount"`
+		} `json:"data"`
+	} `json:"data"`
+	Program   string    `json:"program"`
+	Version   string    `json:"version"`
+	Datetime  time.Time `json:"datetime"`
+	Timestamp int64     `json:"timestamp"`
+}
+
 // JackpotHistory jackpot history response model
 type JackpotHistory struct {
 	Code    int    `json:"code"`
