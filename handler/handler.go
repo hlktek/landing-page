@@ -114,7 +114,6 @@ func HandleMain(c *gin.Context) {
 		"listGameInfo":       listGameInfoToken,
 		"topWinnerData":      topWinnerData.Data.Data,
 		"jackpotData":        jackpotData.Data.Data,
-		"wallet":             sessionData.Wallet,
 		"topWinnerChessData": topWinnerChessData.Data.Data,
 	})
 }
@@ -224,6 +223,7 @@ func HandleGoogleCallback(c *gin.Context) {
 		VerifiedEmail: content.VerifiedEmail,
 		Picture:       content.Picture,
 		Token:         token,
+		Wallet:        responseSetToken.Wallet,
 	}
 	session := sessions.Default(c)
 	session.Set("UserID", dataSession)
