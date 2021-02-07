@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"net/http/httputil"
 	"net/url"
+	"strconv"
 
 	"github.com/jinzhu/now"
 
@@ -302,8 +303,28 @@ func GetImage(c *gin.Context) {
 // AddWallet addwallet
 func AddWallet(c *gin.Context) {
 	var walletResponse model.Wallet
-	userID := c.Query("userId")
-	response, err := http.Get(config.GetConfig("WALLET_URL") + "?money=2000000&serverType=Staging&userId=" + userID)
+	sessionData := model.SessionInfo{}
+	session := sessions.Default(c)
+	key := session.Get("UserID")
+	if key == nil {
+		return
+	}
+	byetData, err := json.Marshal(key)
+	if err != nil {
+		logger.Error(logrus.Fields{
+			"action": "Add wallet",
+		}, "Fail to unmarshal session key : %s", err.Error())
+		return
+	}
+	json.Unmarshal(byetData, &sessionData)
+	walletNumber, _ := strconv.Atoi(sessionData.Wallet)
+	if walletNumber > 500000 {
+		logger.Debug(logrus.Fields{
+			"action": "Add wallet",
+		}, "Fail to add wallet : %s", err.Error())
+	}
+
+	response, err := http.Get(config.GetConfig("WALLET_URL") + "?money=2000000&serverType=Staging&userId=ktek_" + sessionData.Email)
 	if err != nil {
 		logger.Debug(logrus.Fields{
 			"action": "Add wallet",
