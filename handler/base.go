@@ -2,14 +2,23 @@ package handler
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"oauth2-go-service/config"
+	"oauth2-go-service/logger"
 	"oauth2-go-service/model"
+	"reflect"
+	"strconv"
+	"strings"
 	"time"
 
+	"github.com/elastic/go-elasticsearch/esapi"
+	"github.com/elastic/go-elasticsearch/v8"
+	"github.com/sirupsen/logrus"
 	"golang.org/x/oauth2"
 )
 
@@ -111,4 +120,95 @@ func getUserInfo(state string, code string) (model.GoogleUserInfo, string, error
 		return userInfo, "", fmt.Errorf("failed to unmarshal response body: %s", err.Error())
 	}
 	return userInfo, token.AccessToken, nil
+}
+
+type ElasticDocs struct {
+	UserID   string
+	Feedback string
+	Time     int64
+}
+
+// A function for marshaling structs to JSON string
+func jsonStruct(doc ElasticDocs) string {
+
+	// Create struct instance of the Elasticsearch fields struct object
+	docStruct := &ElasticDocs{
+		UserID:   doc.UserID,
+		Feedback: doc.Feedback,
+		Time:     doc.Time,
+	}
+
+	fmt.Println("\ndocStruct:", docStruct)
+	fmt.Println("docStruct TYPE:", reflect.TypeOf(docStruct))
+
+	// Marshal the struct to JSON and check for errors
+	b, err := json.Marshal(docStruct)
+	if err != nil {
+		fmt.Println("json.Marshal ERROR:", err)
+		return string(err.Error())
+	}
+	return string(b)
+}
+
+func insertEs(userId string, feedback string, time int64) error {
+	log.SetFlags(0)
+
+	// Create a context object for the API calls
+	ctx := context.Background()
+
+	// Create a mapping for the Elasticsearch documents
+	var (
+		docMap map[string]interface{}
+	)
+	fmt.Println("docMap:", docMap)
+	fmt.Println("docMap TYPE:", reflect.TypeOf(docMap))
+
+	// Declare an Elasticsearch configuration
+	cfg := elasticsearch.Config{
+		Addresses: []string{
+			config.GetConfig("ES_URL"),
+		},
+	}
+
+	// Instantiate a new Elasticsearch client object instance
+	client, err := elasticsearch.NewClient(cfg)
+
+	if err != nil {
+		return fmt.Errorf("Elasticsearch connection error: %s", err)
+	}
+	doc1 := ElasticDocs{}
+	doc1.UserID = userId
+	doc1.Feedback = feedback
+	doc1.Time = time
+	docStr1 := jsonStruct(doc1)
+	timeStr := strconv.Itoa(int(time))
+	documentID := timeStr + "-" + userId
+	req := esapi.IndexRequest{
+		Index:      "feed-back",
+		DocumentID: documentID,
+		Body:       strings.NewReader(docStr1),
+		Refresh:    "true",
+	}
+	res, err := req.Do(ctx, client)
+	if err != nil {
+		log.Fatalf("IndexRequest ERROR: %s", err)
+		return fmt.Errorf("IndexRequest ERROR: %s", err)
+	}
+	defer res.Body.Close()
+
+	if res.IsError() {
+		logger.Debug(logrus.Fields{
+			"action": "insert es",
+		}, "Fail to insert es : %s", err.Error())
+		return fmt.Errorf("Fail to insert es")
+
+	} else {
+		// Deserialize the response into a map.
+		var resMap map[string]interface{}
+		if err := json.NewDecoder(res.Body).Decode(&resMap); err != nil {
+			log.Printf("Error parsing the response body: %s", err)
+			return fmt.Errorf("Error parsing the response body: %s", err)
+		}
+		return nil
+	}
 }

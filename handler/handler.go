@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"net/http/httputil"
 	"net/url"
+	"time"
 
 	"github.com/jinzhu/now"
 
@@ -345,6 +346,17 @@ func AddWallet(c *gin.Context) {
 	responseBody, err := ioutil.ReadAll(response.Body)
 	err = json.Unmarshal(responseBody, &walletResponse)
 	c.JSON(http.StatusOK, gin.H{"data": walletResponse})
+}
+
+// InserFeedbackES addwallet
+func InserFeedbackES(c *gin.Context) {
+	postData := model.FeedBack{}
+	c.Bind(&postData)
+	err := insertEs(postData.UserID, postData.FeedBack, time.Now().Unix())
+	if err != nil {
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"message": "give feed back success"})
 }
 
 // GetGrpcConnection get

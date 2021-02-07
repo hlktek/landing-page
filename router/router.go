@@ -23,6 +23,7 @@ func InitRouter() *gin.Engine {
 	r.GET("/getJackpotHistory", handler.GetJackpotHistory)
 
 	r.GET("/addWallet", handler.AddWallet)
+	r.POST("/insertFeedbackEs", handler.InserFeedbackES)
 
 	return r
 }

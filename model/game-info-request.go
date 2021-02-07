@@ -34,3 +34,8 @@ type JackpotRequest struct {
 		Size int `json:"size"`
 	} `json:"paging"`
 }
+
+type FeedBack struct {
+	UserID   string `json:"userId"`
+	FeedBack string `json:"feedBack"`
+}
