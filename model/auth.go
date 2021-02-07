@@ -17,5 +17,4 @@ type SessionInfo struct {
 	Picture       string `json:"picture"`
 	DisplayName   string `json:"name"`
 	Token         string `json:"token"`
-	Wallet        string `json:"wallet"`
 }

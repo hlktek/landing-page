@@ -224,7 +224,6 @@ func HandleGoogleCallback(c *gin.Context) {
 		VerifiedEmail: content.VerifiedEmail,
 		Picture:       content.Picture,
 		Token:         token,
-		Wallet:        responseSetToken.Wallet,
 	}
 	session := sessions.Default(c)
 	session.Set("UserID", dataSession)
