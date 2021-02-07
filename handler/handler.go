@@ -321,7 +321,7 @@ func AddWallet(c *gin.Context) {
 	if walletNumber > 500000 {
 		logger.Debug(logrus.Fields{
 			"action": "Add wallet",
-		}, "Fail to add wallet : %s", err.Error())
+		}, "Fail to add wallet current money is %s > %s", walletNumber, "500000")
 	}
 
 	response, err := http.Get(config.GetConfig("WALLET_URL") + "?money=2000000&serverType=Staging&userId=ktek_" + sessionData.Email)
