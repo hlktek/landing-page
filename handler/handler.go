@@ -376,10 +376,10 @@ func InserFeedbackES(c *gin.Context) {
 	c.Bind(&postData)
 	err := insertEs(postData.UserID, postData.FeedBack, postData.ServiceID, time.Now().Unix())
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"code": http.StatusBadRequest, "message": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"message": "give feed back success"})
+	c.JSON(http.StatusOK, gin.H{"code": http.StatusOK, "message": "give feed back success"})
 	return
 }
 
