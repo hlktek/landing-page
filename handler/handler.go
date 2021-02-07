@@ -106,6 +106,7 @@ func HandleMain(c *gin.Context) {
 		"listGameInfo":  listGameInfoToken,
 		"topWinnerData": topWinnerData.Data.Data,
 		"jackpotData":   jackpotData.Data.Data,
+		"wallet":        sessionData.Wallet,
 	})
 }
 
@@ -208,13 +209,13 @@ func HandleGoogleCallback(c *gin.Context) {
 	logger.Debug(logrus.Fields{
 		"userId": config.GetConfig("USER_ID_PREFIX") + content.Email,
 	}, "Set token success")
-
 	dataSession := model.SessionInfo{ID: content.ID,
 		Email:         content.Email,
 		DisplayName:   content.DisplayName,
 		VerifiedEmail: content.VerifiedEmail,
 		Picture:       content.Picture,
 		Token:         token,
+		Wallet:        responseSetToken.Wallet,
 	}
 	session := sessions.Default(c)
 	session.Set("UserID", dataSession)
