@@ -376,9 +376,11 @@ func InserFeedbackES(c *gin.Context) {
 	c.Bind(&postData)
 	err := insertEs(postData.UserID, postData.FeedBack, postData.ServiceID, time.Now().Unix())
 	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"message": "give feed back success"})
+	return
 }
 
 // GetGrpcConnection get

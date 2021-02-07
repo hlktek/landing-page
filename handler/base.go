@@ -194,8 +194,10 @@ func insertEs(userId string, feedback string, serviceId string, time int64) erro
 	}
 	res, err := req.Do(ctx, client)
 	if err != nil {
-		log.Fatalf("IndexRequest ERROR: %s", err)
-		return fmt.Errorf("IndexRequest ERROR: %s", err)
+		logger.Error(logrus.Fields{
+			"action": "Insert Feed Back",
+		}, "Insert feedback fail : %s", err.Error())
+		return fmt.Errorf("Insert feedback fail : %s", err)
 	}
 	defer res.Body.Close()
 
@@ -209,7 +211,9 @@ func insertEs(userId string, feedback string, serviceId string, time int64) erro
 		// Deserialize the response into a map.
 		var resMap map[string]interface{}
 		if err := json.NewDecoder(res.Body).Decode(&resMap); err != nil {
-			log.Printf("Error parsing the response body: %s", err)
+			logger.Debug(logrus.Fields{
+				"action": "insert es - parse respone",
+			}, "Fail to parse respone : %s", err.Error())
 			return fmt.Errorf("Error parsing the response body: %s", err)
 		}
 		return nil
