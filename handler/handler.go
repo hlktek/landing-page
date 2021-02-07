@@ -8,7 +8,6 @@ import (
 	"net/http"
 	"net/http/httputil"
 	"net/url"
-	"strconv"
 
 	"github.com/jinzhu/now"
 
@@ -223,7 +222,6 @@ func HandleGoogleCallback(c *gin.Context) {
 		VerifiedEmail: content.VerifiedEmail,
 		Picture:       content.Picture,
 		Token:         token,
-		Wallet:        responseSetToken.Wallet,
 	}
 	session := sessions.Default(c)
 	session.Set("UserID", dataSession)
@@ -324,7 +322,8 @@ func AddWallet(c *gin.Context) {
 		return
 	}
 	json.Unmarshal(byetData, &sessionData)
-	walletNumber, _ := strconv.Atoi(sessionData.Wallet)
+	userInfo, err := client.GetUserByUserId(context.Background(), &pb.UserIdRequest{UserId: config.GetConfig("USER_ID_PREFIX") + sessionData.Email})
+	walletNumber := userInfo.Money
 	if walletNumber > 500000 {
 		logger.Debug(logrus.Fields{
 			"action": "Add wallet",
