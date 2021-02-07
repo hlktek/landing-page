@@ -353,7 +353,7 @@ func AddWallet(c *gin.Context) {
 			"action": "Add wallet",
 		}, "Fail to add wallet current money is %s > %s", walletNumber, "500000")
 		walletResponse.Code = http.StatusFailedDependency
-		walletResponse.Message = fmt.Sprintf("Fail to add wallet current money is %s > %s", walletNumber, "500000")
+		walletResponse.Message = fmt.Sprintf("Fail to add wallet current money is %d > %s", int(walletNumber), "500000")
 		c.JSON(http.StatusOK, gin.H{"data": walletResponse})
 		return
 	}
