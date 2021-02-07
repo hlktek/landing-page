@@ -3,6 +3,7 @@ package handler
 import (
 	"context"
 	"encoding/json"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"net/http/httputil"
@@ -295,6 +296,26 @@ func GetImage(c *gin.Context) {
 	proxy := httputil.NewSingleHostReverseProxy(remote)
 	c.Request.URL.Path = config.GetConfig("GET_IMAGE_BO_PATH") + imageName //Request API
 	proxy.ServeHTTP(c.Writer, c.Request)
+}
+
+// AddWallet addwallet
+func AddWallet(c *gin.Context) {
+	var walletResponse model.Wallet
+	userID := c.Query("userId")
+	response, err := http.Get(config.GetConfig("WALLET_URL") + "?money=2000000&serverType=Staging&userId=" + userID)
+	if err != nil {
+		logger.Debug(logrus.Fields{
+			"action": "Add wallet",
+		}, "Fail to add wallet : %s", err.Error())
+		logger.Error(logrus.Fields{
+			"action": "Add wallet",
+		}, "Fail to add wallet : %s", err.Error())
+
+	}
+	defer response.Body.Close()
+	responseBody, err := ioutil.ReadAll(response.Body)
+	err = json.Unmarshal(responseBody, &walletResponse)
+	c.JSON(http.StatusOK, gin.H{"data": walletResponse})
 }
 
 // GetGrpcConnection get

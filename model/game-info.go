@@ -114,3 +114,13 @@ type JackpotHistory struct {
 	Datetime  time.Time `json:"datetime"`
 	Timestamp int64     `json:"timestamp"`
 }
+
+// Wallet response when add money
+type Wallet struct {
+	Code int `json:"code"`
+	Data struct {
+		ResBetCode string `json:"resBetCode"`
+		ResWinCode string `json:"resWinCode"`
+	} `json:"data"`
+	Message string `json:"message"`
+}
