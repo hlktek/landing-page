@@ -3,6 +3,7 @@ package handler
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -351,6 +352,9 @@ func AddWallet(c *gin.Context) {
 		logger.Debug(logrus.Fields{
 			"action": "Add wallet",
 		}, "Fail to add wallet current money is %s > %s", walletNumber, "500000")
+		walletResponse.Code = http.StatusFailedDependency
+		walletResponse.Message = fmt.Sprintf("Fail to add wallet current money is %s > %s", walletNumber, "500000")
+		c.JSON(http.StatusOK, gin.H{"data": walletResponse})
 		return
 	}
 
