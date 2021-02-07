@@ -374,7 +374,7 @@ func AddWallet(c *gin.Context) {
 func InserFeedbackES(c *gin.Context) {
 	postData := model.FeedBack{}
 	c.Bind(&postData)
-	err := insertEs(postData.UserID, postData.FeedBack, time.Now().Unix())
+	err := insertEs(postData.UserID, postData.FeedBack, postData.ServiceID, time.Now().Unix())
 	if err != nil {
 		return
 	}

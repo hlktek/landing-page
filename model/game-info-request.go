@@ -36,6 +36,7 @@ type JackpotRequest struct {
 }
 
 type FeedBack struct {
-	UserID   string `json:"userId"`
-	FeedBack string `json:"feedBack"`
+	UserID    string `json:"userId"`
+	FeedBack  string `json:"feedBack"`
+	ServiceID string `json:"serviceId"`
 }

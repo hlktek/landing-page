@@ -123,9 +123,10 @@ func getUserInfo(state string, code string) (model.GoogleUserInfo, string, error
 }
 
 type ElasticDocs struct {
-	UserID   string
-	Feedback string
-	Time     int64
+	UserID    string
+	Feedback  string
+	ServiceId string
+	Time      int64
 }
 
 // A function for marshaling structs to JSON string
@@ -133,9 +134,10 @@ func jsonStruct(doc ElasticDocs) string {
 
 	// Create struct instance of the Elasticsearch fields struct object
 	docStruct := &ElasticDocs{
-		UserID:   doc.UserID,
-		Feedback: doc.Feedback,
-		Time:     doc.Time,
+		UserID:    doc.UserID,
+		Feedback:  doc.Feedback,
+		ServiceId: doc.ServiceId,
+		Time:      doc.Time,
 	}
 
 	fmt.Println("\ndocStruct:", docStruct)
@@ -150,7 +152,7 @@ func jsonStruct(doc ElasticDocs) string {
 	return string(b)
 }
 
-func insertEs(userId string, feedback string, time int64) error {
+func insertEs(userId string, feedback string, serviceId string, time int64) error {
 	log.SetFlags(0)
 
 	// Create a context object for the API calls
@@ -180,9 +182,10 @@ func insertEs(userId string, feedback string, time int64) error {
 	doc1.UserID = userId
 	doc1.Feedback = feedback
 	doc1.Time = time
+	doc1.ServiceId = serviceId
 	docStr1 := jsonStruct(doc1)
 	timeStr := strconv.Itoa(int(time))
-	documentID := timeStr + "-" + userId
+	documentID := timeStr + "-" + userId + "-" + serviceId
 	req := esapi.IndexRequest{
 		Index:      "feed-back",
 		DocumentID: documentID,
