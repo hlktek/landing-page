@@ -125,6 +125,10 @@ func HandleFeedback(c *gin.Context) {
 	sessionData := model.SessionInfo{}
 	session := sessions.Default(c)
 	key := session.Get("UserID")
+	if key == nil {
+		c.Redirect(http.StatusTemporaryRedirect, "/")
+		return
+	}
 	byetData, err := json.Marshal(key)
 	if err != nil {
 		logger.Error(logrus.Fields{
