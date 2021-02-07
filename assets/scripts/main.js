@@ -87,14 +87,13 @@ $(document).ready(function () {
   $("#btn-naptien").on("click", function (e) {
     //debugger;
     var _self = this;
-    const userId = "ktek_user1015";
     $(_self).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
-    fetch("/addWallet?userId=" + userId)
+    fetch("/addWallet")
       .then((response) => response.json())
       .then((res) => {
         $("#modalNaptien").modal("hide");
         $(_self).html("Đồng ý");
-        if (res.code == 200) {
+        if (res.data && res.data.code == 200) {
           toastr.success("Nạp tiền thành công");
         } else {
           toastr.error("Nạp tiền thất bại, xin vui lòng thử lại.");
