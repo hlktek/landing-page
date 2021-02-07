@@ -85,7 +85,6 @@ $(document).ready(function () {
   });
 
   $("#btn-naptien").on("click", function (e) {
-    //debugger;
     var _self = this;
     $(_self).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
     fetch("/addWallet")
@@ -104,9 +103,41 @@ $(document).ready(function () {
         $("#modalNaptien").modal("hide");
         toastr.error("Nạp tiền thất bại, xin vui lòng thử lại.");
       });
+  });
 
-    // $("#modalNaptien").modal("hide");
-    // toastr.success("Nạp tiền thành công");
+  $("#frm-feedback").submit(function (event) {
+    var data = {
+      userId: $("#email").val(),
+      serviceId: $("#serviceId").val(),
+      feedBack: $("#feedBack").val(),
+    };
+
+    $("#btn-send-feedback").html(
+      '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>'
+    );
+
+    fetch("/insertFeedbackEs", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((res) => {
+        $("#btn-send-feedback").html("Gửi");
+        if (res) {
+          toastr.success("Gửi feedback thành công");
+        } else {
+          toastr.error("Gửi feedback thất bại, xin vui lòng thử lại.");
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        $("#btn-send-feedback").html("Gửi");
+        toastr.error("Gửi feedback thất bại, xin vui lòng thử lại.");
+      });
+    event.preventDefault();
   });
 
   function clearCookies(cookieName) {

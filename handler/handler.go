@@ -118,6 +118,28 @@ func HandleMain(c *gin.Context) {
 	})
 }
 
+//HandleFeedback handle main page
+func HandleFeedback(c *gin.Context) {
+
+	sessionData := model.SessionInfo{}
+	session := sessions.Default(c)
+	key := session.Get("UserID")
+	byetData, err := json.Marshal(key)
+	if err != nil {
+		logger.Error(logrus.Fields{
+			"action": "Handle Main",
+		}, "Fail to unmarshal session key : %s", err.Error())
+		return
+	}
+	json.Unmarshal(byetData, &sessionData)
+
+	c.HTML(http.StatusOK, "feedback.tmpl", gin.H{
+		"token":       sessionData.Token,
+		"displayName": sessionData.DisplayName,
+		"email":       sessionData.Email,
+	})
+}
+
 // HandleGoogleCallback handle call back oauth2
 func HandleGoogleCallback(c *gin.Context) {
 	content, token, err := getUserInfo(c.Query("state"), c.Query("code"))
