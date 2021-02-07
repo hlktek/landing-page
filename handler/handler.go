@@ -75,15 +75,22 @@ func HandleMain(c *gin.Context) {
 			"action": "Get Top Winner Data",
 		}, "Fail to get top winner data: %s", err.Error())
 	}
+	topWinnerChessData, errChess := getTopWinnerChess(startDate, endDate)
+	if errChess != nil {
+		logger.Error(logrus.Fields{
+			"action": "Get Top Winner Chess Data",
+		}, "Fail to get top winner data: %s", err.Error())
+	}
 	listGameInfo := data.DataListGameBO.Data
 	sessionData := model.SessionInfo{}
 	session := sessions.Default(c)
 	key := session.Get("UserID")
 	if key == nil {
 		c.HTML(http.StatusOK, "main.tmpl", gin.H{
-			"listGameInfo":  listGameInfo,
-			"topWinnerData": topWinnerData.Data.Data,
-			"jackpotData":   jackpotData.Data.Data,
+			"listGameInfo":       listGameInfo,
+			"topWinnerData":      topWinnerData.Data.Data,
+			"jackpotData":        jackpotData.Data.Data,
+			"topWinnerChessData": topWinnerChessData.Data.Data,
 		})
 		return
 	}
@@ -101,12 +108,13 @@ func HandleMain(c *gin.Context) {
 		listGameInfoToken = append(listGameInfoToken, gameInfo)
 	}
 	c.HTML(http.StatusOK, "main.tmpl", gin.H{
-		"token":         sessionData.Token,
-		"displayName":   sessionData.DisplayName,
-		"listGameInfo":  listGameInfoToken,
-		"topWinnerData": topWinnerData.Data.Data,
-		"jackpotData":   jackpotData.Data.Data,
-		"wallet":        sessionData.Wallet,
+		"token":              sessionData.Token,
+		"displayName":        sessionData.DisplayName,
+		"listGameInfo":       listGameInfoToken,
+		"topWinnerData":      topWinnerData.Data.Data,
+		"jackpotData":        jackpotData.Data.Data,
+		"wallet":             sessionData.Wallet,
+		"topWinnerChessData": topWinnerChessData.Data.Data,
 	})
 }
 

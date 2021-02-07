@@ -84,6 +84,32 @@ $(document).ready(function () {
     getTopWinner(cat);
   });
 
+  $("#btn-naptien").on("click", function (e) {
+    //debugger;
+    var _self = this;
+    const userId = "ktek_user1015";
+    $(_self).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
+    fetch("/addWallet?userId=" + userId)
+      .then((response) => response.json())
+      .then((res) => {
+        $("#modalNaptien").modal("hide");
+        $(_self).html("Đồng ý");
+        if (res.code == 200) {
+          toastr.success("Nạp tiền thành công");
+        } else {
+          toastr.error("Nạp tiền thất bại, xin vui lòng thử lại.");
+        }
+      })
+      .catch(function () {
+        $(_self).html("Đồng ý");
+        $("#modalNaptien").modal("hide");
+        toastr.error("Nạp tiền thất bại, xin vui lòng thử lại.");
+      });
+
+    // $("#modalNaptien").modal("hide");
+    // toastr.success("Nạp tiền thành công");
+  });
+
   function clearCookies(cookieName) {
     var cookies = document.cookie.split(";");
 
