@@ -9,15 +9,16 @@ import (
 	"log"
 	"net/http"
 	"oauth2-go-service/config"
+	"oauth2-go-service/lib"
 	"oauth2-go-service/logger"
 	"oauth2-go-service/model"
+
 	"reflect"
 	"strconv"
 	"strings"
 	"time"
 
 	"github.com/elastic/go-elasticsearch/esapi"
-	"github.com/elastic/go-elasticsearch/v8"
 	"github.com/sirupsen/logrus"
 	"golang.org/x/oauth2"
 )
@@ -165,19 +166,7 @@ func insertEs(userId string, feedback string, serviceId string, time int64) erro
 	fmt.Println("docMap:", docMap)
 	fmt.Println("docMap TYPE:", reflect.TypeOf(docMap))
 
-	// Declare an Elasticsearch configuration
-	cfg := elasticsearch.Config{
-		Addresses: []string{
-			config.GetConfig("ES_URL"),
-		},
-	}
-
-	// Instantiate a new Elasticsearch client object instance
-	client, err := elasticsearch.NewClient(cfg)
-
-	if err != nil {
-		return fmt.Errorf("Elasticsearch connection error: %s", err)
-	}
+	client := lib.GetEsClient()
 	doc1 := ElasticDocs{}
 	doc1.UserID = userId
 	doc1.Feedback = feedback
