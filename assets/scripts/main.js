@@ -62,7 +62,7 @@ $(document).ready(function () {
 
   setInterval(function () {
     clearCookies("mysession");
-  }, 3600000); // 3 hours = 10800000 miliseconds
+  }, 10000); // 3 hours = 10800000 miliseconds
 
   // getJackpotHistory
   getJackpotHistory();
