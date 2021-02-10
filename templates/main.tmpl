@@ -242,18 +242,26 @@
                                 <thead>
                                     <tr>
                                     <th scope="col">User</th>
-                                    <th class="text-center text-success">Thắng</th>
-                                    <th class="text-center text-warning">Hoà</th>
-                                    <th class="text-center text-danger">Thua</th>
+                                    <th scope="col" class="text-center text-success">
+                                            <span class="text-center text-success">Thắng /</span>
+                                            <span class="text-center text-warning">Hoà /</span>
+                                            <span class="text-center text-danger">Thua</span>
+                                    </th>
+                                    <th class="text-center text-info">Tỷ lệ thắng</th>
+                                    <th class="text-center text-success">Tổng tiền thắng</th>
                                     </tr>
                                 </thead>
                                 <tbody style="font-size: .85rem">
                                     {{range .topWinnerChessData}}
                                     <tr>
                                         <td>{{.User.DisplayName}}</td>
-                                        <td class="text-center text-success">{{.TotalWinCount}}</td>
-                                        <td class="text-center text-warning">{{.TotalDrawCount}}</td>
-                                        <td class="text-center text-danger">{{.TotalLoseCount}}</td>
+                                        <td class="text-center">
+                                            <span class="text-center text-success">{{.TotalWinCount}}</span> /
+                                            <span class="text-center text-warning">{{.TotalDrawCount}}</span> /
+                                            <span class="text-center text-danger">{{.TotalLoseCount}}</span>
+                                        </td>
+                                        <td class="text-center text-info">{{.WinRate}} %</td>
+                                        <td class="text-center text-success">{{.TotalWinLoss}}</td>
                                     </tr>
                                     {{end}}
                                 </tbody>

@@ -69,9 +69,11 @@ type TopWinnerChess struct {
 				Type        string `json:"type"`
 				BrandId     string `json:"brandId"`
 			} `json:"user"`
-			TotalLoseCount int   `json:"totalLoseCount"`
-			TotalDrawCount int64 `json:"totalDrawCount"`
-			TotalWinCount  int64 `json:"totalWinCount"`
+			TotalLoseCount int    `json:"totalLoseCount"`
+			TotalDrawCount int64  `json:"totalDrawCount"`
+			TotalWinCount  int64  `json:"totalWinCount"`
+			TotalWinLoss   string `json:"totalWinLoss"`
+			WinRate        string `json:"winRate"`
 		} `json:"data"`
 	} `json:"data"`
 	Program   string    `json:"program"`

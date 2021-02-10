@@ -55,6 +55,7 @@ func getTopWinnerChess(startDate time.Time, endDate time.Time) (model.TopWinnerC
 	var request = model.TopWinnerChessRequest{
 		StartDate: startDate,
 		EndDate:   endDate,
+		ServiceID: "79931",
 	}
 	byteRequestBody, err := json.Marshal(request)
 	if err != nil {

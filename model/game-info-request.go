@@ -19,6 +19,7 @@ type TopWinnerRequest struct {
 type TopWinnerChessRequest struct {
 	StartDate time.Time `json:"startDate"`
 	EndDate   time.Time `json:"endDate"`
+	ServiceID string    `json:"serviceId"`
 }
 
 // JackpotRequest jackpot request
