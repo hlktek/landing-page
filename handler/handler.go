@@ -2,6 +2,7 @@ package handler
 
 import (
 	"context"
+	"encoding/gob"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -23,8 +24,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
-
-	"encoding/gob"
 
 	"github.com/gin-gonic/contrib/sessions"
 	"github.com/sirupsen/logrus"
@@ -252,7 +251,14 @@ func HandleGoogleCallback(c *gin.Context) {
 		Token:         token,
 	}
 	session := sessions.Default(c)
+	// data, _ := json.Marshal(dataSession)
+	// session.Set("UserID", string(data))
 	session.Set("UserID", dataSession)
+
+	session.Options(sessions.Options{
+		Path:   "/",
+		MaxAge: 3600, // 12hrs
+	})
 	session.Save()
 	c.Redirect(http.StatusPermanentRedirect, "/")
 	return
