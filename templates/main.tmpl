@@ -232,7 +232,6 @@
                 </div>
                 
                 <div class="col-lg-3 col-md-5 col-12 bg-black">
-                    {{if .topWinnerChessData}} 
                         <div class="aside-module pt-4 pb-4">
                             <div class="aside-module-header">
                                 <h3>Top cao thủ cờ úp</h3>
@@ -251,6 +250,7 @@
                                     <th class="text-center text-success">Tổng tiền thắng</th>
                                     </tr>
                                 </thead>
+                            {{if .topWinnerChessData}} 
                                 <tbody style="font-size: .85rem">
                                     {{range .topWinnerChessData}}
                                     <tr>
@@ -265,6 +265,7 @@
                                     </tr>
                                     {{end}}
                                 </tbody>
+                            {{end}}
                                 </table>
                                 {{/* <ul class="list-group list-group-flush list-jp">
                                     {{range .topWinnerChessData}}
@@ -283,7 +284,6 @@
                                 </ul> */}}
                             </div>
                         </div> 
-                    {{end}}
                     {{if .jackpotData}} 
                         <div class="aside-module pt-4 pb-4">
                             <div class="aside-module-header">
@@ -309,6 +309,7 @@
                             </div>
                         </div> 
                     {{end}}
+                    {{/*
                     <div class="aside-module pt-4 pb-4">
                         <div class="aside-module-header">
                             <h3>Top người thắng hôm nay</h3>
@@ -353,6 +354,7 @@
                             </ul>
                         </div>
                     </div>
+                    */}}
                     
                 </div>
             </div>
