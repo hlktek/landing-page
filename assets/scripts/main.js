@@ -73,16 +73,16 @@ $(document).ready(function () {
   }, 300000); // 5 phut
 
   // get top winner
-  getTopWinner("all");
-  setInterval(function () {
-    getTopWinner("all");
-  }, 300000); // 5 phut
+  // getTopWinner("all");
+  // setInterval(function () {
+  //   getTopWinner("all");
+  // }, 300000); // 5 phut
 
   $(".nav-top-winner").on("click", function (e) {
     $("#top-winners-nav").find(".nav-link").removeClass("active");
     $(this).find(".nav-link").addClass("active");
     var cat = $(this).data("cat");
-    getTopWinner(cat);
+    // getTopWinner(cat);
   });
 
   $("#btn-naptien").on("click", function (e) {
