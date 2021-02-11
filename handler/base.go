@@ -51,9 +51,13 @@ func getTopWinner(startDate time.Time, endDate time.Time, category string) (mode
 }
 
 func getTopWinnerChess(startDate time.Time, endDate time.Time) (model.TopWinnerChess, error) {
+	unixTimeStartDate := time.Unix(1612976400, 0) //2021-02-11 00:00:00 +0700 +07
+	fmt.Println(unixTimeStartDate)
+	fmt.Println(startDate)
+
 	var topWinnerChessData model.TopWinnerChess
 	var request = model.TopWinnerChessRequest{
-		StartDate: startDate,
+		StartDate: unixTimeStartDate,
 		EndDate:   endDate,
 		ServiceID: "79931",
 	}
