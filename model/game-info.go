@@ -43,12 +43,12 @@ type TopWinner struct {
 	Message string `json:"message"`
 	Data    struct {
 		Data []struct {
-			UserID       string `json:"userId"`
-			DisplayName  string `json:"displayName"`
-			UserType     string `json:"userType"`
-			TotalBet     int    `json:"totalBet"`
-			TotalWin     int64  `json:"totalWin"`
-			TotalWinLoss int64  `json:"totalWinLoss"`
+			UserID       string  `json:"userId"`
+			DisplayName  string  `json:"displayName"`
+			UserType     string  `json:"userType"`
+			TotalBet     float64 `json:"totalBet"`
+			TotalWin     float64 `json:"totalWin"`
+			TotalWinLoss float64 `json:"totalWinLoss"`
 		} `json:"data"`
 	} `json:"data"`
 	Program   string    `json:"program"`
