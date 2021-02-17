@@ -62,6 +62,7 @@ $(document).ready(function () {
 
   setInterval(function () {
     clearCookies("mysession");
+    console.log("jdksd")
   }, 3600000); // 3 hours = 10800000 miliseconds
 
   // getJackpotHistory
@@ -82,6 +83,89 @@ $(document).ready(function () {
     $(this).find(".nav-link").addClass("active");
     var cat = $(this).data("cat");
     getTopWinner(cat);
+  });
+
+  $("#btn-naptien").on("click", function (e) {
+    var _self = this;
+    $(_self).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
+    $(_self).attr("disabled", "disabled");
+    fetch("/addWallet")
+      .then((response) => response.json())
+      .then((res) => {
+        $("#modalNaptien").modal("hide");
+        $(_self).html("Đồng ý");
+        $(_self).removeAttr("disabled", "disabled");
+        if (res.data && res.data.code == 200) {
+          toastr.success("Nạp tiền thành công");
+        } else {
+          toastr.error(res.data && res.data.message);
+        }
+      })
+      .catch(function (err) {
+        $(_self).html("Đồng ý");
+        $(_self).removeAttr("disabled", "disabled");
+        $("#modalNaptien").modal("hide");
+        toastr.error("Nạp tiền thất bại, xin vui lòng thử lại.");
+      });
+  });
+
+  $("#btn-show-confirm").on("click", function (e) {
+    var feedBack = $("#feedBack").val();
+    if (feedBack.trim() === "") {
+      toastr.error("Vui lòng nhập đủ thông tin");
+    } else {
+      $("#modalFeedback").modal("show");
+    }
+  });
+
+  $("#btn-send-feedback").on("click", function (e) {
+    $("#frm-feedback").submit();
+  });
+
+  $("#frm-feedback").submit(function (event) {
+    var userId = $("#email").val();
+    var serviceId = $("#serviceId").val();
+    var feedBack = $("#feedBack").val();
+
+    if (feedBack.trim() === "") {
+      toastr.error("Vui lòng nhập đủ thông tin");
+    } else {
+      $("#btn-send-feedback").html(
+        '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>'
+      );
+      $("#btn-send-feedback").attr("disabled", "disabled");
+      var data = {
+        userId: userId,
+        serviceId: serviceId,
+        feedBack: feedBack,
+      };
+      fetch("/insertFeedbackEs", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+        .then((response) => response.json())
+        .then((res) => {
+          $("#modalFeedback").modal("hide");
+          $("#btn-send-feedback").html("Đồng ý");
+          $("#btn-send-feedback").removeAttr("disabled", "disabled");
+          if (res.code === 200) {
+            toastr.success(res.message);
+            $("#feedBack").val("");
+          } else {
+            toastr.error("Gửi feedback thất bại, xin vui lòng thử lại.");
+          }
+        })
+        .catch((error) => {
+          $("#modalFeedback").modal("hide");
+          $("#btn-send-feedback").html("Đồng ý");
+          $("#btn-send-feedback").removeAttr("disabled", "disabled");
+          toastr.error("Gửi feedback thất bại, xin vui lòng thử lại.");
+        });
+    }
+    event.preventDefault();
   });
 
   function clearCookies(cookieName) {

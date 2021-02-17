@@ -2,11 +2,15 @@ package handler
 
 import (
 	"context"
+	"encoding/gob"
 	"encoding/json"
+	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"net/http/httputil"
 	"net/url"
+	"time"
 
 	"github.com/jinzhu/now"
 
@@ -20,8 +24,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
-
-	"encoding/gob"
 
 	"github.com/gin-gonic/contrib/sessions"
 	"github.com/sirupsen/logrus"
@@ -74,15 +76,22 @@ func HandleMain(c *gin.Context) {
 			"action": "Get Top Winner Data",
 		}, "Fail to get top winner data: %s", err.Error())
 	}
+	topWinnerChessData, errChess := getTopWinnerChess(startDate, endDate)
+	if errChess != nil {
+		logger.Error(logrus.Fields{
+			"action": "Get Top Winner Chess Data",
+		}, "Fail to get top winner data: %s", err.Error())
+	}
 	listGameInfo := data.DataListGameBO.Data
 	sessionData := model.SessionInfo{}
 	session := sessions.Default(c)
 	key := session.Get("UserID")
 	if key == nil {
 		c.HTML(http.StatusOK, "main.tmpl", gin.H{
-			"listGameInfo":  listGameInfo,
-			"topWinnerData": topWinnerData.Data.Data,
-			"jackpotData":   jackpotData.Data.Data,
+			"listGameInfo":       listGameInfo,
+			"topWinnerData":      topWinnerData.Data.Data,
+			"jackpotData":        jackpotData.Data.Data,
+			"topWinnerChessData": topWinnerChessData.Data.Data,
 		})
 		return
 	}
@@ -100,11 +109,38 @@ func HandleMain(c *gin.Context) {
 		listGameInfoToken = append(listGameInfoToken, gameInfo)
 	}
 	c.HTML(http.StatusOK, "main.tmpl", gin.H{
-		"token":         sessionData.Token,
-		"displayName":   sessionData.DisplayName,
-		"listGameInfo":  listGameInfoToken,
-		"topWinnerData": topWinnerData.Data.Data,
-		"jackpotData":   jackpotData.Data.Data,
+		"token":              sessionData.Token,
+		"displayName":        sessionData.DisplayName,
+		"listGameInfo":       listGameInfoToken,
+		"topWinnerData":      topWinnerData.Data.Data,
+		"jackpotData":        jackpotData.Data.Data,
+		"topWinnerChessData": topWinnerChessData.Data.Data,
+	})
+}
+
+//HandleFeedback handle main page
+func HandleFeedback(c *gin.Context) {
+
+	sessionData := model.SessionInfo{}
+	session := sessions.Default(c)
+	key := session.Get("UserID")
+	if key == nil {
+		c.Redirect(http.StatusTemporaryRedirect, "/")
+		return
+	}
+	byetData, err := json.Marshal(key)
+	if err != nil {
+		logger.Error(logrus.Fields{
+			"action": "Handle Main",
+		}, "Fail to unmarshal session key : %s", err.Error())
+		return
+	}
+	json.Unmarshal(byetData, &sessionData)
+
+	c.HTML(http.StatusOK, "feedback.tmpl", gin.H{
+		"token":       sessionData.Token,
+		"displayName": sessionData.DisplayName,
+		"email":       sessionData.Email,
 	})
 }
 
@@ -207,7 +243,6 @@ func HandleGoogleCallback(c *gin.Context) {
 	logger.Debug(logrus.Fields{
 		"userId": config.GetConfig("USER_ID_PREFIX") + content.Email,
 	}, "Set token success")
-
 	dataSession := model.SessionInfo{ID: content.ID,
 		Email:         content.Email,
 		DisplayName:   content.DisplayName,
@@ -216,7 +251,14 @@ func HandleGoogleCallback(c *gin.Context) {
 		Token:         token,
 	}
 	session := sessions.Default(c)
+	// data, _ := json.Marshal(dataSession)
+	// session.Set("UserID", string(data))
 	session.Set("UserID", dataSession)
+
+	session.Options(sessions.Options{
+		Path:   "/",
+		MaxAge: 3600, // 12hrs
+	})
 	session.Save()
 	c.Redirect(http.StatusPermanentRedirect, "/")
 	return
@@ -252,6 +294,21 @@ func GetTopWinner(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": topWinnerData.Data.Data})
 }
 
+//GetTopWinnerChess by category
+func GetTopWinnerChess(c *gin.Context) {
+	startDate := now.BeginningOfDay()
+	endDate := now.EndOfDay()
+
+	topWinnerData, err := getTopWinnerChess(startDate, endDate)
+	if err != nil {
+		logger.Debug(logrus.Fields{
+			"action": "Get top winner chess",
+		}, "Fail to get top winner chess : %s", err.Error())
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": topWinnerData.Data.Data})
+}
+
 //GetTopJackpot
 func GetJackpotHistory(c *gin.Context) {
 	startDate := now.BeginningOfDay()
@@ -280,6 +337,64 @@ func GetImage(c *gin.Context) {
 	proxy := httputil.NewSingleHostReverseProxy(remote)
 	c.Request.URL.Path = config.GetConfig("GET_IMAGE_BO_PATH") + imageName //Request API
 	proxy.ServeHTTP(c.Writer, c.Request)
+}
+
+// AddWallet addwallet
+func AddWallet(c *gin.Context) {
+	var walletResponse model.Wallet
+	sessionData := model.SessionInfo{}
+	session := sessions.Default(c)
+	key := session.Get("UserID")
+	if key == nil {
+		return
+	}
+	byetData, err := json.Marshal(key)
+	if err != nil {
+		logger.Error(logrus.Fields{
+			"action": "Add wallet",
+		}, "Fail to unmarshal session key : %s", err.Error())
+		return
+	}
+	json.Unmarshal(byetData, &sessionData)
+	userInfo, err := client.GetUserByUserId(context.Background(), &pb.UserIdRequest{UserId: config.GetConfig("USER_ID_PREFIX") + sessionData.Email})
+	walletNumber := userInfo.Money
+	if walletNumber > 500000 {
+		logger.Debug(logrus.Fields{
+			"action": "Add wallet",
+		}, "Fail to add wallet current money is %s > %s", walletNumber, "500000")
+		walletResponse.Code = http.StatusFailedDependency
+		walletResponse.Message = fmt.Sprintf("Fail to add wallet current money is %d > %s", int(walletNumber), "500000")
+		c.JSON(http.StatusOK, gin.H{"data": walletResponse})
+		return
+	}
+
+	response, err := http.Get(config.GetConfig("WALLET_URL") + "?money=2000000&serverType=Staging&userId=ktek_" + sessionData.Email)
+	if err != nil {
+		logger.Debug(logrus.Fields{
+			"action": "Add wallet",
+		}, "Fail to add wallet : %s", err.Error())
+		logger.Error(logrus.Fields{
+			"action": "Add wallet",
+		}, "Fail to add wallet : %s", err.Error())
+
+	}
+	defer response.Body.Close()
+	responseBody, err := ioutil.ReadAll(response.Body)
+	err = json.Unmarshal(responseBody, &walletResponse)
+	c.JSON(http.StatusOK, gin.H{"data": walletResponse})
+}
+
+// InserFeedbackES addwallet
+func InserFeedbackES(c *gin.Context) {
+	postData := model.FeedBack{}
+	c.Bind(&postData)
+	err := insertEs(postData.UserID, postData.FeedBack, postData.ServiceID, time.Now().Unix())
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"code": http.StatusBadRequest, "message": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"code": http.StatusOK, "message": "give feed back success"})
+	return
 }
 
 // GetGrpcConnection get

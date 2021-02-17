@@ -43,12 +43,37 @@ type TopWinner struct {
 	Message string `json:"message"`
 	Data    struct {
 		Data []struct {
-			UserID       string `json:"userId"`
-			DisplayName  string `json:"displayName"`
-			UserType     string `json:"userType"`
-			TotalBet     int    `json:"totalBet"`
-			TotalWin     int64  `json:"totalWin"`
-			TotalWinLoss int64  `json:"totalWinLoss"`
+			UserID       string  `json:"userId"`
+			DisplayName  string  `json:"displayName"`
+			UserType     string  `json:"userType"`
+			TotalBet     float64 `json:"totalBet"`
+			TotalWin     float64 `json:"totalWin"`
+			TotalWinLoss float64 `json:"totalWinLoss"`
+		} `json:"data"`
+	} `json:"data"`
+	Program   string    `json:"program"`
+	Version   string    `json:"version"`
+	Datetime  time.Time `json:"datetime"`
+	Timestamp int64     `json:"timestamp"`
+}
+
+// TopWinnerChess top winner response model
+type TopWinnerChess struct {
+	Code    int    `json:"code"`
+	Message string `json:"message"`
+	Data    struct {
+		Data []struct {
+			User struct {
+				UserID      string `json:"userId"`
+				DisplayName string `json:"displayName"`
+				Type        string `json:"type"`
+				BrandId     string `json:"brandId"`
+			} `json:"user"`
+			TotalLoseCount int    `json:"totalLoseCount"`
+			TotalDrawCount int64  `json:"totalDrawCount"`
+			TotalWinCount  int64  `json:"totalWinCount"`
+			TotalWinLoss   string `json:"totalWinLoss"`
+			WinRate        string `json:"winRate"`
 		} `json:"data"`
 	} `json:"data"`
 	Program   string    `json:"program"`
@@ -90,4 +115,14 @@ type JackpotHistory struct {
 	Version   string    `json:"version"`
 	Datetime  time.Time `json:"datetime"`
 	Timestamp int64     `json:"timestamp"`
+}
+
+// Wallet response when add money
+type Wallet struct {
+	Code int `json:"code"`
+	Data struct {
+		ResBetCode string `json:"resBetCode"`
+		ResWinCode string `json:"resWinCode"`
+	} `json:"data"`
+	Message string `json:"message"`
 }
