@@ -18,7 +18,7 @@ func main() {
 	// 	})
 	// })
 	go func() {
-		gocron.Every(1).Minute().Do(FetchListGameBO)
+		gocron.Every(5).Minute().Do(FetchListGameBO)
 		<-gocron.Start()
 	}()
 	routerInit := router.InitRouter()
