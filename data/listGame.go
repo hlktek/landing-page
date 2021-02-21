@@ -19,14 +19,15 @@ import (
 var DataListGameBO = model.GameBOConfig{}
 
 func init() {
-	getListGame()
+	GetListGame()
 	// for {
 	// 	time.Sleep(time.Second * 10)
 	// 	getListGame()
 	// }
 }
 
-func getListGame() {
+func GetListGame() {
+	fmt.Println("fetch data from bo")
 	defer func() {
 		if err := recover(); err != nil {
 			fmt.Println(err)
